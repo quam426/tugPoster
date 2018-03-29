@@ -13,6 +13,12 @@
 %
 %  CHANGELOG
 %
+% v0.97 (xx/11/2017)
+%    - NEW: additional content block: 3 coloums with background color and optional background image (top)
+%    - NEW: allow different page sizes: A0, A1, 70x100 as document options
+% v0.96 (04/09/2014)
+%    - NEW: additional document option 'frame=Xmm'
+%           shifts institute logo to the left to accountfor space consumed by potential frame
 % v0.95 (26/08/2014)
 %    - IMPR: text justified, itemized list RaggedRight
 %    - IMPR: loading babel (english)
@@ -33,24 +39,42 @@
 %           depending on the text-width
 
 \def\tugPoster{tug\textit{Poster}}
-\def\tugPosterVersion{v0.95}
+\def\tugPosterVersion{v0.97}
 
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{tugPoster}[2014/08/25 \tugPosterVersion LaTeX document class for Posters]
 
 \RequirePackage[cmyk]{xcolor}
 \RequirePackage{xkeyval}
+\RequirePackage{ifthen}
 
 \newif\ifIPT@debug
 \newif\ifIPT@cropmarks
+\newif\ifIPT@croprectangle
+\newlength{\IPTFrameMargin}
+
 
 \DeclareOptionX{debug}{\IPT@debugtrue}
 \DeclareOptionX{cropmarks}{\IPT@cropmarkstrue}
+\DeclareOptionX{croprectangle}{\IPT@cropmarkstrue\IPT@croprectangletrue}
+\DeclareOptionX{frame}[0mm]{\setlength\IPTFrameMargin{#1}}
 \DeclareOptionX*{\PackageWarning{tugPoster}{‘\CurrentOption’ ignored}}
+\define@choicekey*{tugPoster.cls}{size}[\val\nr]{A0,A1,70x100}[A0]{
+	\newcommand{\IPT@size}{\val}
+}
 
 \ProcessOptionsX
 
-\LoadClass[fontsize=30pt]{scrartcl}
+
+\ifthenelse{\equal{\IPT@size}{a0}}{
+	\LoadClass[fontsize=36pt]{scrartcl}
+}{}
+\ifthenelse{\equal{\IPT@size}{a1}}{
+	\LoadClass[fontsize=26pt]{scrartcl}
+}{}
+\ifthenelse{\equal{\IPT@size}{70x100}}{
+	\LoadClass[fontsize=30pt]{scrartcl}
+}{}
 
 \RequirePackage{geometry}
 \RequirePackage[english]{babel}
@@ -61,7 +85,6 @@
 \RequirePackage{enumitem}
 \RequirePackage[skins]{tcolorbox}
 \RequirePackage{calc}
-\RequirePackage{ifthen}
 \RequirePackage{tikz}
 %\RequirePackage{graphicx}
 \RequirePackage{adjustbox}
@@ -69,28 +92,83 @@
 \RequirePackage{xspace}
 \RequirePackage{ragged2e}
 
+\@ifpackagelater{tcolorbox}{2014/05/18}{%
+    % Package is new enough
+}{%
+    \ClassError{tugPoster}{Package tcolorbox is to old! Required vesion is 3.0.4}{%
+    	Update!
+    }
+}
+\@ifpackagelater{tikz}{2013/12/13}{%
+    % Package is new enough
+}{%
+    \ClassError{tugPoster}{Package tikz is to old! Required vesion is 3.0.0}{%
+    	Update!
+    }%
+}
+
     \usetikzlibrary{shapes,decorations,shadows,backgrounds,calc,fadings,fit}
     \usetikzlibrary{decorations.pathmorphing}
-    \usepgflibrary{arrows}
+    \usepgflibrary{arrows.meta}
+
+
 
 \newlength{\IPTPageWidth}
 \newlength{\IPTPageHeight}
-\newlength{\IPTCropMargin}
 \newlength{\IPTMarginLeft}
 \newlength{\IPTMarginRight}
 \newlength{\IPTMarginTop}
 \newlength{\IPTMainColsGap}
 \newlength{\IPTContentColsGap}
+\newlength{\IPTHeaderHeight}
+\newlength{\IPTFooterHeight}
+\newlength{\IPTFooterQRWidth}
+
+\newlength{\IPTCropMargin}
 \newlength{\IPTContentWidth}
 \newlength{\IPTColumnWidth}
 
-\setlength{\IPTPageWidth}{700mm}
-\setlength{\IPTPageHeight}{1000mm}
-\setlength{\IPTMarginLeft}{70mm}
-\setlength{\IPTMarginRight}{20mm}
-\setlength{\IPTMarginTop}{72.5mm}
-\setlength{\IPTMainColsGap}{25mm}
-\setlength{\IPTContentColsGap}{20mm}
+\newlength{\IPT@cropmarkspace}\setlength{\IPT@cropmarkspace}{3mm}
+
+\ifthenelse{\equal{\IPT@size}{a0}}{
+		\setlength{\IPTPageWidth}{841mm}
+		\setlength{\IPTPageHeight}{1189mm}
+
+		\setlength{\IPTMarginLeft}{82mm}
+		\setlength{\IPTMarginRight}{24mm}
+		\setlength{\IPTMarginTop}{86mm}
+		\setlength{\IPTHeaderHeight}{83mm}
+		\setlength{\IPTFooterHeight}{138mm}
+		\setlength{\IPTMainColsGap}{30mm}
+		\setlength{\IPTContentColsGap}{24mm}
+		\setlength{\IPTFooterQRWidth}{60mm}
+}{}
+\ifthenelse{\equal{\IPT@size}{a1}}{
+		\setlength{\IPTPageWidth}{594mm}
+		\setlength{\IPTPageHeight}{841mm}
+
+		\setlength{\IPTMarginLeft}{70mm}
+		\setlength{\IPTMarginRight}{20mm}
+		\setlength{\IPTMarginTop}{72.5mm}
+		\setlength{\IPTHeaderHeight}{70mm}
+		\setlength{\IPTMainColsGap}{25mm}
+		\setlength{\IPTContentColsGap}{20mm}
+		\setlength{\IPTFooterQRWidth}{50mm}
+}{}
+\ifthenelse{\equal{\IPT@size}{70x100}}{
+		\setlength{\IPTPageWidth}{700mm}
+		\setlength{\IPTPageHeight}{1000mm}
+		
+		\setlength{\IPTMarginLeft}{70mm}
+		\setlength{\IPTMarginRight}{20mm}
+		\setlength{\IPTMarginTop}{72.5mm}
+		\setlength{\IPTHeaderHeight}{70mm}
+		\setlength{\IPTFooterHeight}{116mm}
+		\setlength{\IPTMainColsGap}{25mm}
+		\setlength{\IPTContentColsGap}{20mm}
+		\setlength{\IPTFooterQRWidth}{50mm}
+}{}
+
 
 \setlength{\IPTContentWidth}{\IPTPageWidth-\IPTMarginLeft-\IPTMarginRight}
 \setlength{\IPTColumnWidth}{0.5\IPTContentWidth-0.5\IPTMainColsGap}
@@ -116,18 +194,66 @@
 
 % ####
 % #### definition of font sizes and colors used in the poster
-% ####   IMPORTANT: font size is for poster of size 700x1000 mm!
+% ####
 
-\setkomafont{title}{\fontsize{72pt}{94pt}\selectfont\bfseries}
-\setkomafont{subtitle}{\fontsize{66}{79.2}\selectfont\bfseries}
-\setkomafont{section}{\fontsize{48pt}{57.6pt}\selectfont\bfseries}
-\setkomafont{subsection}{\singlespacing\fontsize{42}{50.4}\selectfont\bfseries}
-% \setkomafont{subsubsection}{\singlespacing\fontsize{42}{50.4}\selectfont\bfseries}
-% \setkomafont{normal}{\fontsize{30pt}{36pt}\selectfont}
+\newlength{\IPT@HeaderInstituteFontSize}
+\newlength{\IPT@HeaderAddressFontSize}
+\newlength{\IPT@FooterNoteFontSize}
+\newlength{\IPT@FooterURLFontSize}
+
+\newlength{\IPT@TitleRulerShift}\setlength{\IPT@TitleRulerShift}{3.5mm}
+
+\ifthenelse{\equal{\IPT@size}{a0}}{
+	\setkomafont{title}{\fontsize{86pt}{103.2pt}\selectfont\bfseries}
+	\setkomafont{subtitle}{\fontsize{78}{93.6}\selectfont\bfseries}
+	\setkomafont{section}{\fontsize{58pt}{69.6pt}\selectfont\bfseries}
+	\setkomafont{subsection}{\fontsize{46}{55.2}\selectfont\bfseries}
+	\RedeclareSectionCommand[beforeskip=0.5\baselineskip,afterskip=1\baselineskip]{subsection}
+	% \setkomafont{subsubsection}{\singlespacing\fontsize{42}{50.4}\selectfont\bfseries}
+	% \setkomafont{normal}{\fontsize{36pt}{43.2pt}\selectfont}
+	% \fontsize{36pt}{43.2pt}\selectfont
+	\setlength{\IPT@HeaderInstituteFontSize}{28pt}
+	\setlength{\IPT@HeaderAddressFontSize}{26pt}
+	\setlength{\IPT@FooterNoteFontSize}{21.5pt}
+	\setlength{\IPT@FooterURLFontSize}{30pt}
+}{}
+\ifthenelse{\equal{\IPT@size}{a1}}{
+	\setkomafont{title}{\fontsize{72pt}{94pt}\selectfont\bfseries}
+	\setkomafont{subtitle}{\fontsize{66}{79.2}\selectfont\bfseries}
+	\setkomafont{section}{\fontsize{48pt}{57.6pt}\selectfont\bfseries}
+	\setkomafont{subsection}{\fontsize{38}{45.6}\selectfont\bfseries}
+	\RedeclareSectionCommand[beforeskip=0.5\baselineskip,afterskip=1\baselineskip]{subsection}
+	% \setkomafont{subsubsection}{\singlespacing\fontsize{42}{50.4}\selectfont\bfseries}
+	% \setkomafont{normal}{\fontsize{30pt}{36pt}\selectfont}
+	% \fontsize{30pt}{36pt}\selectfont
+	\setlength{\IPT@HeaderInstituteFontSize}{24pt}
+	\setlength{\IPT@HeaderAddressFontSize}{22pt}
+	\setlength{\IPT@FooterNoteFontSize}{18pt}
+	\setlength{\IPT@FooterURLFontSize}{26pt}
+
+}{}
+\ifthenelse{\equal{\IPT@size}{70x100}}{
+	\setkomafont{title}{\fontsize{72pt}{94pt}\selectfont\bfseries}
+	\setkomafont{subtitle}{\fontsize{66}{79.2}\selectfont\bfseries}
+	\setkomafont{section}{\fontsize{48pt}{57.6pt}\selectfont\bfseries}
+	\setkomafont{subsection}{\fontsize{38}{45.6}\selectfont\bfseries}
+	\RedeclareSectionCommand[beforeskip=0.5\baselineskip,afterskip=1\baselineskip]{subsection}
+	% \setkomafont{subsubsection}{\singlespacing\fontsize{42}{50.4}\selectfont\bfseries}
+	% \setkomafont{normal}{\fontsize{30pt}{36pt}\selectfont}
+	% \fontsize{30pt}{36pt}\selectfont
+	\setlength{\IPT@HeaderInstituteFontSize}{24pt}
+	\setlength{\IPT@HeaderAddressFontSize}{22pt}
+	\setlength{\IPT@FooterNoteFontSize}{18pt}
+	\setlength{\IPT@FooterURLFontSize}{26pt}
+}{}
+
 
 \definecolor{TUG_red}{cmyk}{0,.96,.57,0}
-\definecolor{ITI_blue}{cmyk}{.90,.52,.17,.02}
+\@ifundefinedcolor{IPTinstituteColor}{
+%	\definecolor{IPTinstituteColor}{cmyk}{.90,.52,.17,.02}
+	\definecolor{IPTinstituteColor}{cmyk}{0,.96,.57,0}
 
+}
 
 %########################################################################################
 %########################################################################################
@@ -155,6 +281,7 @@
 	bottom=5mm,
 	flushleft upper,
 	flushleft lower,
+	valign=top,
 	sidebyside,
 	sidebyside align=top,
 	sidebyside gap=\IPTMainColsGap,
@@ -174,7 +301,7 @@
 		interior titled empty,
 		segmentation hidden,
 		lowerbox=ignored,
-		coltitle=ITI_blue,
+		coltitle=IPTinstituteColor,
 		size=minimal,
 		boxsep=0pt,
 		arc=0pt,
@@ -184,7 +311,7 @@
 		toptitle=8mm,
 		bottomtitle=3mm,
 		bottom=5mm,
-		title code={\path[draw=ITI_blue,solid,line width=5pt] ([yshift=3.5mm]title.south west) -- ([yshift=3.5mm]title.south east);},
+		title code={\path[draw=IPTinstituteColor,solid,line width=5pt] ([yshift=\IPT@TitleRulerShift]title.south west) -- ([yshift=\IPT@TitleRulerShift]title.south east);},
 		flushleft title,
 		%flushleft upper,
 		fonttitle=\usekomafont{subtitle},
@@ -197,7 +324,7 @@
 		interior empty,
 		interior titled empty,
 		segmentation hidden,
-		coltitle=ITI_blue,
+		coltitle=IPTinstituteColor,
 		size=minimal,
 		boxsep=3mm,
 		arc=0pt,
@@ -289,6 +416,109 @@
 	\end{tcolorbox}
 }
 
+
+% ####
+% #### content block with 3 columns and background color and background image
+% ####
+
+\def\IPT@cThreeColorA{}
+\def\IPT@cThreeColorB{}
+\def\IPT@cThreeColorC{}
+\define@key{IPTcolorBlock}{color1}{\def\IPT@cThreeColorA{#1}}
+\define@key{IPTcolorBlock}{color2}{\def\IPT@cThreeColorB{#1}}
+\define@key{IPTcolorBlock}{color3}{\def\IPT@cThreeColorC{#1}}
+
+\def\IPT@cThreeImageA{}
+\def\IPT@cThreeImageB{}
+\def\IPT@cThreeImageC{}
+\newif\ifIPT@cThreeHasImage
+\define@key{IPTcolorBlock}{image1}{\IPT@cThreeHasImagetrue\def\IPT@cThreeImageA{#1}}
+\define@key{IPTcolorBlock}{image2}{\IPT@cThreeHasImagetrue\def\IPT@cThreeImageB{#1}}
+\define@key{IPTcolorBlock}{image3}{\IPT@cThreeHasImagetrue\def\IPT@cThreeImageC{#1}}
+
+
+\newlength{\IPT@cThreeImageHeight}
+\define@key{IPTcolorBlock}{imageHeight}{\setlength{\IPT@cThreeImageHeight}{#1}}
+
+\newenvironment{IPTcolorBlock3}[2][]{
+	\setkeys{IPTcolorBlock}{#1}
+	\renewcommand{\IPTcolbreak}{
+			\end{minipage}%
+			\end{center}
+			\vfill\null
+		\columnbreak
+			\begin{center}
+			\begin{minipage}{\columnwidth-\colpadding}
+	}
+	\vspace{-5mm}
+	\newlength{\colpadding}\setlength{\colpadding}{10mm}
+	\fboxsep0pt
+	\begin{tcolorbox}[
+		poster_content,
+		poster_content_debug,
+		adjusted title={#2},
+		interior titled code={
+			\ifx\IPT@cThreeColorA\empty\else
+		    \fill[\IPT@cThreeColorA]
+		    	let \p1 = ($ (interior.north west)!1/3!(interior.north east)$),
+		    		\p9 = (interior.south)
+		    	in 
+				([yshift=\IPT@TitleRulerShift]interior.north west) rectangle (\x1, \y9);
+			\fi
+		    \ifx\IPT@cThreeColorB\empty\else
+		    \fill[\IPT@cThreeColorB]
+		    	let \p2 = ($ (interior.north west)!1/3!(interior.north east)$),
+		    		\p3 = ($ (interior.north west)!2/3!(interior.north east)$),
+		    		\p9 = (interior.south)
+		    	in 
+				([yshift=\IPT@TitleRulerShift]\x2, \y3) rectangle (\x3, \y9);
+			\fi
+			\ifx\IPT@cThreeColorC\empty\else
+		    \fill[\IPT@cThreeColorC]
+		    	let \p4 = ($ (interior.north west)!2/3!(interior.north east)$)
+		    	in 
+				([yshift=\IPT@TitleRulerShift]\x4, \y4) rectangle (interior.south east);
+			\fi
+			\ifx\IPT@cThreeImageA\empty\else
+			\path[fill overzoom image=\IPT@cThreeImageA]
+		    	let \p1 = (interior.north west),
+		    		\p9 = ($ (interior.north west)!1/3!(interior.north east)$)
+		    	in 
+				([yshift=\IPT@TitleRulerShift]\x1, \y1) rectangle ([yshift=-\IPT@cThreeImageHeight+\IPT@TitleRulerShift]\x9, \y9);
+			\fi
+			\ifx\IPT@cThreeImageB\empty\else
+			\path[fill overzoom image=\IPT@cThreeImageB]
+		    	let \p2 = ($ (interior.north west)!1/3!(interior.north east)$),
+		    		\p9 = ($ (interior.north west)!2/3!(interior.north east)$)
+		    	in 
+				([yshift=\IPT@TitleRulerShift]\x2, \y2) rectangle ([yshift=-\IPT@cThreeImageHeight+\IPT@TitleRulerShift]\x9, \y9);
+			\fi
+			\ifx\IPT@cThreeImageC\empty\else
+				\path[fill overzoom image=\IPT@cThreeImageC]
+		    	let \p2 = ($ (interior.north west)!2/3!(interior.north east)$),
+		    		\p9 = (interior.north east)
+		    	in 
+				([yshift=\IPT@TitleRulerShift]\x2, \y2) rectangle ([yshift=-\IPT@cThreeImageHeight+\IPT@TitleRulerShift]\x9, \y9);
+			\fi
+	},
+	]
+		\ifIPT@cThreeHasImage\vspace{\IPT@cThreeImageHeight}\fi
+		\setlength{\columnsep}{0mm}
+		\setlength{\multicolsep}{0mm}
+
+		\begin{multicols}{3}
+			\begin{center}
+			\begin{minipage}{\columnwidth-\colpadding}
+}
+{
+			\end{minipage}
+			\end{center}
+			\vfill\null
+		\end{multicols}
+	\end{tcolorbox}
+}
+
+
 % ####
 % #### command for placing figures
 % ####
@@ -338,7 +568,7 @@
 	left=3mm,
 	right=3mm,
 	bottomtitle=4mm,
-	title code={\path[draw=ITI_blue,solid,line width=4pt] ([yshift=2.25mm]title.south west) -- ([yshift=2.25mm]title.south east);},
+	title code={\path[draw=IPTinstituteColor,solid,line width=4pt] ([yshift=2.25mm]title.south west) -- ([yshift=2.25mm]title.south east);},
 	flushleft title,
 	fonttitle=\fontsize{30pt}{36pt}\selectfont\bfseries,
 	fontupper=\fontsize{14pt}{16.8pt}\selectfont,
@@ -365,45 +595,55 @@
 % ####
 % #### Box for having IPTblocks typeset in two-column layout, gap=25mm (whole poster)
 % ####
+\tcbset{
+	poster_twocol/.style={
+		enhanced,
+		frame hidden,
+		interior empty,
+		interior titled empty,
+		segmentation hidden,
+		boxsep=0pt,
+		arc=0pt,
+		left=0pt,
+		right=0pt,
+		top=0mm,
+		toptitle=0mm,
+		sidebyside,
+		sidebyside align=top,
+		sidebyside gap=\IPTMainColsGap,
+		middle=0mm,
+	}
+}
+
 \newtcolorbox{IPTtwocol}{
-	enhanced,
-	frame hidden,
-	interior empty,
-	interior titled empty,
-	segmentation hidden,
-	boxsep=0pt,
-	arc=0pt,
-	left=0pt,
-	right=0pt,
-	top=0mm,
-	toptitle=0mm,
-	sidebyside,
-	sidebyside align=top,
-	sidebyside gap=\IPTMainColsGap,
-	middle=0mm,
+	poster_twocol,
 	poster_twocolumn_debug,
 }
 
 % ####
 % ####  Box for two-column content within an IPTblock, gap=5mm (content)
 % ####
+\tcbset{
+	poster_cols/.style={
+		enhanced,
+		frame hidden,
+		interior empty,
+		interior titled empty,
+		segmentation hidden,
+		boxsep=0pt,
+		arc=0pt,
+		left=0pt,
+		right=0pt,
+		top=0mm,
+		toptitle=0mm,
+		sidebyside,
+		sidebyside align=top,
+		sidebyside gap=5mm,
+	}
+}
 \newtcolorbox{IPTcols}[1]{
-	enhanced,
-	frame hidden,
-	interior empty,
-	interior titled empty,
-	segmentation hidden,
-	boxsep=0pt,
-	arc=0pt,
-	left=0pt,
-	right=0pt,
-	top=0mm,
-	toptitle=0mm,
-	sidebyside,
-	sidebyside align=top,
-	sidebyside gap=5mm,
+	poster_cols,
 	lefthand ratio=#1,
-	middle=0mm,
 	poster_column_debug,
 }
 
@@ -420,7 +660,9 @@
 
 \newcommand{\IPTcite}[1]{{\fontsize{18pt}{21.6pt}\selectfont#1}}
 
-\newcommand{\IPTsection}[1]{\section*{#1}\vskip-12mm}
+\newcommand{\IPTsection}[1]{\section*{#1}\vspace{-0.5em}}
+
+\newcommand{\IPTsubsection}[1]{\subsection*{#1}\vspace{-0.5em}}
 
 \newcommand{\bs}{\textbackslash}   % backslash
 
@@ -519,8 +761,8 @@
 	topsep=0mm,
 	partopsep=0mm,
 	parsep=0mm,
-	label=\tikz{\path[fill=TUG_red] (0,0) rectangle (5.953mm,5.953mm);},
-	before=\RaggedRight,
+	label=\tikz{\path[fill=TUG_red,rounded corners=0pt] (0,0) rectangle (5.953mm,5.953mm);},
+	before=\fontsize{30pt}{36pt}\selectfont\RaggedRight,
 	after=\justifying
 }
 \setitemize[2]{
@@ -532,7 +774,7 @@
 	topsep=3mm,
 	partopsep=0mm,
 	parsep=0mm,
-	label=\tikz{\path[fill=black!55] (0,0) rectangle (5.159mm,5.159mm);},
+	label=\tikz{\path[fill=black!55,rounded corners=0pt] (0,0) rectangle (5.159mm,5.159mm);},
 	before=\fontsize{26pt}{31.2pt}\selectfont
 }
 \setitemize[3]{
@@ -544,7 +786,7 @@
 	topsep=2mm,
 	partopsep=0mm,
 	parsep=0mm,
-	label=\tikz{\path[fill=black!40] (0,0) rectangle (4.763mm,4.763mm);},
+	label=\tikz{\path[fill=black!40,rounded corners=0pt] (0,0) rectangle (4.763mm,4.763mm);},
 	before=\fontsize{24pt}{28.8pt}\selectfont
 }
 
@@ -557,9 +799,12 @@
 % ####   heavily uses tikz for positioning all elements. 
 % #### IMPORTANT: this code assumes a poster size of 700x1000 mm!
 
-\def\theQRCode{QR-iti}
+\def\theQRCode{QR-TUG}
 \newcommand{\QRCode}[1]{\def\theQRCode{#1}}
 
+\newif\ifIPT@showNFC
+\IPT@showNFCtrue
+\newcommand{\NoNFC}{\IPT@showNFCfalse}
 
 \def\IPT@partnerlogo@options{}
 \define@key{IPTpartnerlogo}{imgoptions}[]{\def\IPT@partnerlogo@options{#1}}
@@ -583,6 +828,13 @@
 \def\IPT@partnersCustom{}
 \newcommand*{\IPT@partners}{}
 \def\IPT@partnersNote{}
+
+\newcommand{\IPTInstituteName}[1]{\def\IPT@instituteName{#1}}
+\newcommand{\IPTInstituteAddress}[1]{\def\IPT@instituteAddress{#1}}
+\newcommand{\IPTInstituteLogo}[1]{\def\IPT@instituteLogo{#1}}
+\newcommand{\IPTInstituteURL}[1]{\def\IPT@instituteURL{#1}}
+\newcommand{\IPTInstituteEmail}[1]{\def\IPT@instituteEmail{#1}}
+
 \newcommand{\IPTpartnersNote}[1]{\def\IPT@partnersNote{#1}}
 \newcommand{\IPTpartners}[1]{\def\IPT@partnersCustom{#1}}
 
@@ -610,19 +862,29 @@
 	\thispagestyle{empty}
 	\begin{tikzpicture}[remember picture,overlay]
 		\node (IPTpage) at (current page) [rectangle,inner sep=0pt,minimum width=\IPTPageWidth,minimum height=\IPTPageHeight] {};
-		\ifIPT@cropmarks
-			\path [draw,line width=0.25pt] (IPTpage.north west) rectangle (IPTpage.south east);
-			\draw [line width=0.25pt] ([xshift=-3mm]IPTpage.north west) -- +(-\IPTCropMargin,0);
-			\draw [line width=0.25pt] ([yshift= 3mm]IPTpage.north west) -- +(0,\IPTCropMargin);
-			\draw [line width=0.25pt] ([xshift= 3mm]IPTpage.north east) -- +( \IPTCropMargin,0);
-			\draw [line width=0.25pt] ([yshift= 3mm]IPTpage.north east) -- +(0,\IPTCropMargin);
+		\node[anchor=north west,outer sep=0,inner sep=0] (IPTheader) at ([xshift=\IPTMarginLeft]IPTpage.north west) [rectangle,inner sep=0,minimum width=\IPTPageWidth-\IPTMarginLeft-\IPTMarginRight,minimum height=\IPTHeaderHeight] {};
 
-			\draw [line width=0.25pt] ([xshift=-3mm]IPTpage.south west) -- +(-\IPTCropMargin,0);
-			\draw [line width=0.25pt] ([yshift=-3mm]IPTpage.south west) -- +(0,-\IPTCropMargin);
-			\draw [line width=0.25pt] ([xshift= 3mm]IPTpage.south east) -- +( \IPTCropMargin,0);
-			\draw [line width=0.25pt] ([yshift=-3mm]IPTpage.south east) -- +(0,-\IPTCropMargin);
+		\node[anchor=south west,outer sep=0,inner sep=0] (IPTfooter) at ([xshift=\IPTMarginLeft]IPTpage.south west) [rectangle,inner sep=0,minimum width=\IPTPageWidth-\IPTMarginLeft-\IPTMarginRight,minimum height=\IPTFooterHeight] {};
+
+		\ifIPT@croprectangle
+			\path [draw,line width=0.25pt] (IPTpage.north west) rectangle (IPTpage.south east);
+		\fi
+		\ifIPT@cropmarks
+
+			\draw [line width=0.25pt] ([xshift=-\IPT@cropmarkspace]IPTpage.north west) -- +(-\IPTCropMargin,0);
+			\draw [line width=0.25pt] ([yshift= \IPT@cropmarkspace]IPTpage.north west) -- +(0,\IPTCropMargin);
+			\draw [line width=0.25pt] ([xshift= \IPT@cropmarkspace]IPTpage.north east) -- +( \IPTCropMargin,0);
+			\draw [line width=0.25pt] ([yshift= \IPT@cropmarkspace]IPTpage.north east) -- +(0,\IPTCropMargin);
+
+			\draw [line width=0.25pt] ([xshift=-\IPT@cropmarkspace]IPTpage.south west) -- +(-\IPTCropMargin,0);
+			\draw [line width=0.25pt] ([yshift=-\IPT@cropmarkspace]IPTpage.south west) -- +(0,-\IPTCropMargin);
+			\draw [line width=0.25pt] ([xshift= \IPT@cropmarkspace]IPTpage.south east) -- +( \IPTCropMargin,0);
+			\draw [line width=0.25pt] ([yshift=-\IPT@cropmarkspace]IPTpage.south east) -- +(0,-\IPTCropMargin);
 
 			\node [font=\fontsize{14pt}{1em}\selectfont,anchor=south east] at ([xshift=-10mm,yshift=3mm]IPTpage.north east) {Created by \LaTeX\xspace using \tugPoster\xspace \tugPosterVersion\xspace by M. Quaritsch};
+
+			\node [font=\fontsize{14pt}{1em}\selectfont,anchor=south] at ([yshift=3mm]IPTpage.north) {Page Size: \MakeUppercase{\IPT@size}};
+
 
 			\node [font=\fontsize{14pt}{1em}\selectfont,anchor=south west] at ([xshift=3mm,yshift=3mm]IPTpage.north west) {{\jobname}.pdf \quad \yyyymmdddate\today \quad \currenttime};
 
@@ -656,51 +918,82 @@
 				\end{tikzpicture}
 			};
 		\fi
-        \node[anchor=north west,outer sep=0,inner sep=0,xshift=70mm,yshift=-63mm,fill=white] (top_separator) at (IPTpage.north west) {
+
+		% ##
+		% ##  HEADER
+		% ##
+		% line at header
+        \node[anchor=north west,outer sep=0,inner sep=0,yshift=-0.9\IPTHeaderHeight,fill=white] (top_separator) at (IPTheader.north west) {
                 \begin{tikzpicture}
-                        \draw [line width=1pt] (0,0) -- (610mm,0);
+                        \draw [line width=1pt] (0,0) -- (\IPTPageWidth-\IPTMarginLeft-\IPTMarginRight,0);
                 \end{tikzpicture}
             };
-	    \node[anchor=north west, yshift=-85mm,outer sep=0,inner sep=0] (iti_logo) at (IPTpage.north west)
-	        {\includegraphics[width=52mm]{img/kurz_iti}};
-	    \node[anchor=north east, xshift=-20mm,yshift=-16mm,outer sep=0,inner sep=0] (tug_claim) at (IPTpage.north east)
-	        {\includegraphics[height=42mm]{img/Logo-und-Claim-englisch-CMYK_crop}};
-	    \node[below left,xshift=-20mm,yshift=-70mm,node distance=0,outer sep=0,inner sep=0] (iti_coordinates) at (IPTpage.north east)
-	        { {\fontsize{24pt}{1em}\selectfont\textbf{Institute for Technical Informatics}}
-	          \begin{tikzpicture}\path [fill=gray] (0,0) rectangle (4.763mm,4.763mm);\end{tikzpicture} %
-	          {\fontsize{22pt}{1em}\selectfont Inffeldgasse 16/I, 8010 Graz, Austria}
-	          \begin{tikzpicture}\path [fill=gray] (0,0) rectangle (4.763mm,4.763mm);\end{tikzpicture}
-	           {\fontsize{22pt}{1em}\selectfont\textit{office@iti.tugraz.at}}
+        % TUG logo and claim (en)
+	    \node[anchor=north east, yshift=-0.23\IPTHeaderHeight,outer sep=0,inner sep=0] (tug_claim) at (IPTheader.north east)
+	        {\includegraphics[height=0.6\IPTHeaderHeight]{img/Logo-und-Claim-englisch-CMYK_crop}};
+	    % Institute name and address
+	    \node[below left,node distance=0,outer sep=0,inner sep=0] (institute_coordinates) at (IPTheader.south east)
+	        { {\fontsize{\IPT@HeaderInstituteFontSize}{1em}\selectfont\textbf{\IPT@instituteName}}
+	          \begin{tikzpicture}\path [fill=gray] (0,0) rectangle (0.6776\IPT@HeaderAddressFontSize,0.6776\IPT@HeaderAddressFontSize);\end{tikzpicture} %
+	          {\fontsize{\IPT@HeaderAddressFontSize}{1em}\selectfont \IPT@instituteAddress}
+	          \begin{tikzpicture}\path [fill=gray] (0,0) rectangle (0.6776\IPT@HeaderAddressFontSize,0.6776\IPT@HeaderAddressFontSize);\end{tikzpicture}
+	           {\fontsize{\IPT@HeaderAddressFontSize}{1em}\selectfont\textit{\IPT@instituteEmail}}
 	        };
-	    \node[anchor=north west,outer sep=0,inner sep=0,xshift=70mm,yshift=116mm] (top_separator) at (IPTpage.south west) {
+
+	    % ##
+		% ## institute logo on the left side
+		% ##
+	    \node[anchor=north east, yshift=-1.2\IPTHeaderHeight,xshift=0.75\IPTMarginLeft+\IPTFrameMargin,outer sep=0,inner sep=0] (institute_logo) at (IPTpage.north west)
+	        {\includegraphics[width=0.85\IPTHeaderHeight]{\IPT@instituteLogo}};
+
+		% ##
+		% ##  FOOTER
+		% ##
+	    % footer line
+	    \node[anchor=north west,outer sep=0,inner sep=0] (bot_separator) at (IPTfooter.north west) {
 	    	\begin{tikzpicture}
-	    		\draw [line width=1pt] (0,0) -- (610mm,0);
+	    		\draw [line width=1pt] (0,0) -- (\IPTPageWidth-\IPTMarginLeft-\IPTMarginRight,0);
 	    	\end{tikzpicture}
 	    };
-	    \node[anchor=north east,outer sep=0,inner sep=0,xshift=-20mm,yshift=105mm] (nfc_qr) at (IPTpage.south east) {
+	    % footer content: QR/NFC
+	    \node[anchor=east,outer sep=0,inner sep=0] (nfc_qr) at (IPTfooter.east) {
 	        \begin{tikzpicture}
-	            \node[anchor=north east,outer sep=0,inner sep=0] (nfc) at (0,0) {
-	                \includegraphics[height=78mm]{img/QR_NFC}
-	            };
-	            \ifx\theQRCode\empty\else
-	            \node[anchor=north east,outer sep=0,inner sep=0] (qr_code) at (0,0) {
-	                \includegraphics[height=50mm,trim={2.5mm 2.5mm 3mm 2.5mm}]{\theQRCode}
-	            };
+	        	\ifIPT@showNFC
+	        		\node[anchor=north east,outer sep=0,inner sep=0] (nfc) at (0,0) {
+		                \includegraphics[width=\IPTFooterQRWidth]{img/QR_NFC}
+		            };
+					\ifx\theQRCode\empty\else
+		            \node[anchor=north east,outer sep=0,inner sep=0] (qr_code) at (0,0) {
+		                \includegraphics[width=\IPTFooterQRWidth,trim={2.5mm 2.5mm 3mm 2.5mm}]{\theQRCode}
+		            };
+	            	\fi
+		            \node[anchor=north east,outer sep=0,inner sep=0,rotate=90]{
+		                {\fontsize{\IPT@FooterURLFontSize}{1em}\selectfont\textbf{\IPT@instituteURL}\,\,}
+		            };
+	        	\else
+		            \ifx\theQRCode\empty\else
+		            \node[anchor=north east,yshift=-20mm,outer sep=0,inner sep=0] (qr_code) at (0,0) {
+		                \includegraphics[width=\IPTFooterQRWidth,trim={2.5mm 2.5mm 3mm 2.5mm}]{\theQRCode}
+		            };
+		            \node[anchor=north east,outer sep=0,inner sep=0,rotate=90]{
+		                {\fontsize{\IPT@FooterURLFontSize}{1em}\selectfont\textbf{\IPT@instituteURL}\,\,}
+		            };
 	            \fi
-	            \node[anchor=north east,outer sep=0,inner sep=0,rotate=90]{
-	                {\fontsize{26pt}{1em}\selectfont\textbf{www.iti.tugraz.at}\,\,}
-	            };
+	            \fi
 	        \end{tikzpicture}
 	    };
+	    \newlength{\IPT@footerWidth}\setlength{\IPT@footerWidth}{\IPTPageWidth-\IPTMarginLeft-\IPTMarginRight}
+
+	    % footer content: partner logos
 		\ifnum\theIPT@partnerCount=0
-		    \node[anchor=north west, outer sep=0,inner sep=0,xshift=70mm,yshift=95mm] (partners) at (IPTpage.south west) {
-	    		\begin{minipage}{540mm}
+		    \node[anchor=north west, outer sep=0,inner sep=0,yshift=-0.18\IPTFooterHeight] (partners) at (IPTfooter.north west) {
+	    		\begin{minipage}{0.88\IPT@footerWidth}
 	    				\IPT@partnersCustom
 				\end{minipage}
 		    };
 		\else
-		    \node[anchor=north west, outer sep=0,inner sep=0,xshift=100mm,yshift=95mm] (partners) at (IPTpage.south west) {
-	    		\begin{minipage}{480mm}
+		    \node[anchor=north west, outer sep=0,inner sep=0,xshift=0.05\IPT@footerWidth,yshift=-0.18\IPTFooterHeight] (partners) at (IPTfooter.north west) {
+	    		\begin{minipage}{0.79\IPT@footerWidth}
 	    			\ifnum\theIPT@partnerCount=1
 	    				\centering
 	    				\IPT@partners
@@ -717,9 +1010,9 @@
 				\end{minipage}
 		    };
     	\fi
-	    \node[anchor=north west, outer sep=0,inner sep=0,xshift=70mm,yshift=105mm] (partners) at (IPTpage.south west) {
-    		\begin{minipage}{540mm}
-    			\fontsize{18pt}{21.6pt}\selectfont
+	    \node[anchor=north west, outer sep=0,inner sep=0,yshift=-0.1\IPTFooterHeight] (partners) at (IPTfooter.north west) {
+    		\begin{minipage}{0.88\IPT@footerWidth}
+    			\fontsize{\IPT@FooterNoteFontSize}{1.2\IPT@FooterNoteFontSize}\selectfont
 		    	\IPT@partnersNote
     		\end{minipage}
 	    };
