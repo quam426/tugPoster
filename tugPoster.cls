@@ -13,19 +13,30 @@
 %
 %  CHANGELOG
 %
+% v0.95 (26/08/2014)
+%    - IMPR: text justified, itemized list RaggedRight
+%    - IMPR: loading babel (english)
+%    - NEW: print version information for print-ready posters (cropmarks enabled)
+%    - IMPR: flushleft author names (aviods hypenations)
+%
+% v0.94 (25/08/2014)
+%    - IMPR: added space before nested itemized list
+%    - IMPR: moved line below block titles slightly down
+%
 % v0.9 (20/08/2014)
 %    - bugfix / hack that some block borders show up when resizing the page
 %    - NEW: document option to create PDF with cropmarks (and cutting border)
-%    - NEW: automatic placement of sponsor/partner logos in the footer. 
+%    - NEW: automatic placement of sponsor/partner logos in the footer.
 %           add partnerlogos with 'IPTpartner' before  \begin{document}
 %           (previous variant IPTpartners is still available for special purposes)
-%    - NEW: typeset references automatically either twocolumn or threecolumn, 
+%    - NEW: typeset references automatically either twocolumn or threecolumn,
 %           depending on the text-width
 
-
+\def\tugPoster{tug\textit{Poster}}
+\def\tugPosterVersion{v0.95}
 
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{tugPoster}[2014/08/25 v0.94 LaTeX document class for Posters]
+\ProvidesClass{tugPoster}[2014/08/25 \tugPosterVersion LaTeX document class for Posters]
 
 \RequirePackage[cmyk]{xcolor}
 \RequirePackage{xkeyval}
@@ -42,6 +53,7 @@
 \LoadClass[fontsize=30pt]{scrartcl}
 
 \RequirePackage{geometry}
+\RequirePackage[english]{babel}
 \RequirePackage[T1]{fontenc}
 \RequirePackage[utf8]{inputenc}
 \RequirePackage{helvet}
@@ -54,6 +66,8 @@
 %\RequirePackage{graphicx}
 \RequirePackage{adjustbox}
 \RequirePackage{datetime}
+\RequirePackage{xspace}
+\RequirePackage{ragged2e}
 
     \usetikzlibrary{shapes,decorations,shadows,backgrounds,calc,fadings,fit}
     \usetikzlibrary{decorations.pathmorphing}
@@ -139,6 +153,8 @@
 	toptitle=0mm,
 	bottomtitle=5mm,
 	bottom=5mm,
+	flushleft upper,
+	flushleft lower,
 	sidebyside,
 	sidebyside align=top,
 	sidebyside gap=\IPTMainColsGap,
@@ -170,7 +186,7 @@
 		bottom=5mm,
 		title code={\path[draw=ITI_blue,solid,line width=5pt] ([yshift=3.5mm]title.south west) -- ([yshift=3.5mm]title.south east);},
 		flushleft title,
-		flushleft upper,
+		%flushleft upper,
 		fonttitle=\usekomafont{subtitle},
 	}
 }
@@ -250,6 +266,7 @@
 
 \newenvironment{IPTblock}[2][]{
 	\setkeys{IPTcontentblock}{#1}
+	\justify
 	\ifx\IPT@twocols\empty
 		\begin{tcolorbox}[
 			poster_content,
@@ -502,7 +519,9 @@
 	topsep=0mm,
 	partopsep=0mm,
 	parsep=0mm,
-	label=\tikz{\path[fill=TUG_red] (0,0) rectangle (5.953mm,5.953mm);}
+	label=\tikz{\path[fill=TUG_red] (0,0) rectangle (5.953mm,5.953mm);},
+	before=\RaggedRight,
+	after=\justifying
 }
 \setitemize[2]{
 	leftmargin=12mm,
@@ -602,6 +621,8 @@
 			\draw [line width=0.25pt] ([yshift=-3mm]IPTpage.south west) -- +(0,-\IPTCropMargin);
 			\draw [line width=0.25pt] ([xshift= 3mm]IPTpage.south east) -- +( \IPTCropMargin,0);
 			\draw [line width=0.25pt] ([yshift=-3mm]IPTpage.south east) -- +(0,-\IPTCropMargin);
+
+			\node [font=\fontsize{14pt}{1em}\selectfont,anchor=south east] at ([xshift=-10mm,yshift=3mm]IPTpage.north east) {Created by \LaTeX\xspace using \tugPoster\xspace \tugPosterVersion\xspace by M. Quaritsch};
 
 			\node [font=\fontsize{14pt}{1em}\selectfont,anchor=south west] at ([xshift=3mm,yshift=3mm]IPTpage.north west) {{\jobname}.pdf \quad \yyyymmdddate\today \quad \currenttime};
 
