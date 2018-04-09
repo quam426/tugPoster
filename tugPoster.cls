@@ -42,7 +42,7 @@
 \def\tugPosterVersion{v0.97}
 
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{tugPoster}[2014/08/25 \tugPosterVersion LaTeX document class for Posters]
+\ProvidesClass{tugPoster}[2018/04/03 \tugPosterVersion LaTeX document class for Posters]
 
 \RequirePackage[cmyk]{xcolor}
 \RequirePackage{xkeyval}
@@ -59,8 +59,10 @@
 \DeclareOptionX{croprectangle}{\IPT@cropmarkstrue\IPT@croprectangletrue}
 \DeclareOptionX{frame}[0mm]{\setlength\IPTFrameMargin{#1}}
 \DeclareOptionX*{\PackageWarning{tugPoster}{‘\CurrentOption’ ignored}}
+	\PackageInfo{tugPoster}{before set size}
 \define@choicekey*{tugPoster.cls}{size}[\val\nr]{A0,A1,70x100}[A0]{
 	\newcommand{\IPT@size}{\val}
+	\PackageInfo{tugPoster}{set size}
 }
 
 \ProcessOptionsX
@@ -930,7 +932,7 @@
             };
         % TUG logo and claim (en)
 	    \node[anchor=north east, yshift=-0.23\IPTHeaderHeight,outer sep=0,inner sep=0] (tug_claim) at (IPTheader.north east)
-	        {\includegraphics[height=0.6\IPTHeaderHeight]{img/Logo-und-Claim-englisch-CMYK_crop}};
+	        {\includegraphics[height=0.6\IPTHeaderHeight]{Logo-und-Claim-englisch-CMYK_crop}};
 	    % Institute name and address
 	    \node[below left,node distance=0,outer sep=0,inner sep=0] (institute_coordinates) at (IPTheader.south east)
 	        { {\fontsize{\IPT@HeaderInstituteFontSize}{1em}\selectfont\textbf{\IPT@instituteName}}
@@ -960,7 +962,7 @@
 	        \begin{tikzpicture}
 	        	\ifIPT@showNFC
 	        		\node[anchor=north east,outer sep=0,inner sep=0] (nfc) at (0,0) {
-		                \includegraphics[width=\IPTFooterQRWidth]{img/QR_NFC}
+		                \includegraphics[width=\IPTFooterQRWidth]{QR_NFC}
 		            };
 					\ifx\theQRCode\empty\else
 		            \node[anchor=north east,outer sep=0,inner sep=0] (qr_code) at (0,0) {
