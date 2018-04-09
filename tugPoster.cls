@@ -1,5 +1,5 @@
 %
-% LaTeX document class for creating Posters according to the TUG ITI Poster Style
+% LaTeX document class for creating Posters according to the TUG   Poster Style
 %
 % Original code by Markus Quaritsch 2014
 %
@@ -16,6 +16,8 @@
 % v0.97 (xx/11/2017)
 %    - NEW: additional content block: 3 coloums with background color and optional background image (top)
 %    - NEW: allow different page sizes: A0, A1, 70x100 as document options
+%    - NEW: allow specifying relative height/widht using \IPTRelHeight \IPTRelWidth 
+%           (e.g., picture scales with size of poster)
 % v0.96 (04/09/2014)
 %    - NEW: additional document option 'frame=Xmm'
 %           shifts institute logo to the left to accountfor space consumed by potential frame
@@ -59,10 +61,8 @@
 \DeclareOptionX{croprectangle}{\IPT@cropmarkstrue\IPT@croprectangletrue}
 \DeclareOptionX{frame}[0mm]{\setlength\IPTFrameMargin{#1}}
 \DeclareOptionX*{\PackageWarning{tugPoster}{‘\CurrentOption’ ignored}}
-	\PackageInfo{tugPoster}{before set size}
 \define@choicekey*{tugPoster.cls}{size}[\val\nr]{A0,A1,70x100}[A0]{
 	\newcommand{\IPT@size}{\val}
-	\PackageInfo{tugPoster}{set size}
 }
 
 \ProcessOptionsX
@@ -171,6 +171,8 @@
 		\setlength{\IPTFooterQRWidth}{50mm}
 }{}
 
+\newlength{\IPTRelWidth}\setlength{\IPTRelWidth}{0.01\IPTPageWidth}
+\newlength{\IPTRelHeight}\setlength{\IPTRelHeight}{0.01\IPTPageHeight}
 
 \setlength{\IPTContentWidth}{\IPTPageWidth-\IPTMarginLeft-\IPTMarginRight}
 \setlength{\IPTColumnWidth}{0.5\IPTContentWidth-0.5\IPTMainColsGap}
@@ -205,11 +207,17 @@
 
 \newlength{\IPT@TitleRulerShift}\setlength{\IPT@TitleRulerShift}{3.5mm}
 
+\newkomafont{itemize1}{}
+\newkomafont{itemize2}{}
+\newkomafont{itemize3}{}
 \ifthenelse{\equal{\IPT@size}{a0}}{
 	\setkomafont{title}{\fontsize{86pt}{103.2pt}\selectfont\bfseries}
 	\setkomafont{subtitle}{\fontsize{78}{93.6}\selectfont\bfseries}
 	\setkomafont{section}{\fontsize{58pt}{69.6pt}\selectfont\bfseries}
 	\setkomafont{subsection}{\fontsize{46}{55.2}\selectfont\bfseries}
+	\setkomafont{itemize1}{\fontsize{36pt}{43.2}\selectfont}
+	\setkomafont{itemize2}{\fontsize{32pt}{38.4pt}\selectfont}
+	\setkomafont{itemize3}{\fontsize{28.8pt}{34.6pt}\selectfont}
 	\RedeclareSectionCommand[beforeskip=0.5\baselineskip,afterskip=1\baselineskip]{subsection}
 	% \setkomafont{subsubsection}{\singlespacing\fontsize{42}{50.4}\selectfont\bfseries}
 	% \setkomafont{normal}{\fontsize{36pt}{43.2pt}\selectfont}
@@ -217,13 +225,17 @@
 	\setlength{\IPT@HeaderInstituteFontSize}{28pt}
 	\setlength{\IPT@HeaderAddressFontSize}{26pt}
 	\setlength{\IPT@FooterNoteFontSize}{21.5pt}
-	\setlength{\IPT@FooterURLFontSize}{30pt}
+	\setlength{\IPT@FooterURLFontSize}{31pt}
 }{}
 \ifthenelse{\equal{\IPT@size}{a1}}{
 	\setkomafont{title}{\fontsize{72pt}{94pt}\selectfont\bfseries}
 	\setkomafont{subtitle}{\fontsize{66}{79.2}\selectfont\bfseries}
 	\setkomafont{section}{\fontsize{48pt}{57.6pt}\selectfont\bfseries}
 	\setkomafont{subsection}{\fontsize{38}{45.6}\selectfont\bfseries}
+	\setkomafont{itemize1}{\fontsize{26pt}{31.2}\selectfont}
+	\setkomafont{itemize2}{\fontsize{22.5pt}{27pt}\selectfont}
+	\setkomafont{itemize3}{\fontsize{22pt}{26.4pt}\selectfont}
+
 	\RedeclareSectionCommand[beforeskip=0.5\baselineskip,afterskip=1\baselineskip]{subsection}
 	% \setkomafont{subsubsection}{\singlespacing\fontsize{42}{50.4}\selectfont\bfseries}
 	% \setkomafont{normal}{\fontsize{30pt}{36pt}\selectfont}
@@ -239,6 +251,9 @@
 	\setkomafont{subtitle}{\fontsize{66}{79.2}\selectfont\bfseries}
 	\setkomafont{section}{\fontsize{48pt}{57.6pt}\selectfont\bfseries}
 	\setkomafont{subsection}{\fontsize{38}{45.6}\selectfont\bfseries}
+	\setkomafont{itemize1}{\fontsize{30pt}{36pt}\selectfont}
+	\setkomafont{itemize2}{\fontsize{26pt}{31.2pt}\selectfont}
+	\setkomafont{itemize3}{\fontsize{24pt}{28.8pt}\selectfont}
 	\RedeclareSectionCommand[beforeskip=0.5\baselineskip,afterskip=1\baselineskip]{subsection}
 	% \setkomafont{subsubsection}{\singlespacing\fontsize{42}{50.4}\selectfont\bfseries}
 	% \setkomafont{normal}{\fontsize{30pt}{36pt}\selectfont}
@@ -764,7 +779,8 @@
 	partopsep=0mm,
 	parsep=0mm,
 	label=\tikz{\path[fill=TUG_red,rounded corners=0pt] (0,0) rectangle (5.953mm,5.953mm);},
-	before=\fontsize{30pt}{36pt}\selectfont\RaggedRight,
+%	before=\fontsize{30pt}{36pt}\selectfont\RaggedRight,
+	before=\usekomafont{itemize1}\RaggedRight,
 	after=\justifying
 }
 \setitemize[2]{
@@ -777,7 +793,8 @@
 	partopsep=0mm,
 	parsep=0mm,
 	label=\tikz{\path[fill=black!55,rounded corners=0pt] (0,0) rectangle (5.159mm,5.159mm);},
-	before=\fontsize{26pt}{31.2pt}\selectfont
+%	before=\fontsize{26pt}{31.2pt}\selectfont
+	before=\usekomafont{itemize2}
 }
 \setitemize[3]{
 	leftmargin=12mm,
@@ -789,7 +806,8 @@
 	partopsep=0mm,
 	parsep=0mm,
 	label=\tikz{\path[fill=black!40,rounded corners=0pt] (0,0) rectangle (4.763mm,4.763mm);},
-	before=\fontsize{24pt}{28.8pt}\selectfont
+	%before=\fontsize{24pt}{28.8pt}\selectfont
+	before=\usekomafont{itemize3}
 }
 
 %########################################################################################
@@ -962,7 +980,7 @@
 	        \begin{tikzpicture}
 	        	\ifIPT@showNFC
 	        		\node[anchor=north east,outer sep=0,inner sep=0] (nfc) at (0,0) {
-		                \includegraphics[width=\IPTFooterQRWidth]{QR_NFC}
+		                \includegraphics[width=\IPTFooterQRWidth]{img/QR_NFC}
 		            };
 					\ifx\theQRCode\empty\else
 		            \node[anchor=north east,outer sep=0,inner sep=0] (qr_code) at (0,0) {
