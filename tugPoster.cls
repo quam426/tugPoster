@@ -210,6 +210,16 @@
 \newkomafont{itemize1}{}
 \newkomafont{itemize2}{}
 \newkomafont{itemize3}{}
+\newkomafont{figurecaption}{}
+\newkomafont{abstract}{}
+\newkomafont{referencestitle}{}
+\newkomafont{references}{}
+\newkomafont{citation}{}
+\newkomafont{authorname}{}
+\newkomafont{authoraffiliation}{}
+\newkomafont{authoremail}{}
+
+\newkomafont{cropmarkannotation}{\fontsize{14pt}{1em}\selectfont}
 \ifthenelse{\equal{\IPT@size}{a0}}{
 	\setkomafont{title}{\fontsize{86pt}{103.2pt}\selectfont\bfseries}
 	\setkomafont{subtitle}{\fontsize{78}{93.6}\selectfont\bfseries}
@@ -218,10 +228,18 @@
 	\setkomafont{itemize1}{\fontsize{36pt}{43.2}\selectfont}
 	\setkomafont{itemize2}{\fontsize{32pt}{38.4pt}\selectfont}
 	\setkomafont{itemize3}{\fontsize{28.8pt}{34.6pt}\selectfont}
+	\setkomafont{figurecaption}{\fontsize{24pt}{28.8pt}\selectfont}
+
+	\setkomafont{abstract}{\fontsize{28.8pt}{34.6pt}\selectfont}
+	\setkomafont{referencestitle}{\fontsize{36pt}{38.4}\selectfont\bfseries}
+	\setkomafont{references}{\fontsize{16.8pt}{20.2pt}\selectfont}
+	\setkomafont{citation}{\fontsize{21.6pt}{26pt}\selectfont}
+
+	\setkomafont{authorname}{\fontsize{34pt}{1em}\selectfont}
+	\setkomafont{authoraffiliation}{\fontsize{32pt}{1em}\selectfont}
+	\setkomafont{authoremail}{\fontsize{28.8pt}{1em}\selectfont}
+
 	\RedeclareSectionCommand[beforeskip=0.5\baselineskip,afterskip=1\baselineskip]{subsection}
-	% \setkomafont{subsubsection}{\singlespacing\fontsize{42}{50.4}\selectfont\bfseries}
-	% \setkomafont{normal}{\fontsize{36pt}{43.2pt}\selectfont}
-	% \fontsize{36pt}{43.2pt}\selectfont
 	\setlength{\IPT@HeaderInstituteFontSize}{28pt}
 	\setlength{\IPT@HeaderAddressFontSize}{26pt}
 	\setlength{\IPT@FooterNoteFontSize}{21.5pt}
@@ -235,11 +253,18 @@
 	\setkomafont{itemize1}{\fontsize{26pt}{31.2}\selectfont}
 	\setkomafont{itemize2}{\fontsize{22.5pt}{27pt}\selectfont}
 	\setkomafont{itemize3}{\fontsize{22pt}{26.4pt}\selectfont}
+	\setkomafont{figurecaption}{\fontsize{16pt}{19.2pt}\selectfont}
+
+	\setkomafont{abstract}{\fontsize{20pt}{24pt}\selectfont}
+	\setkomafont{referencestitle}{\fontsize{25pt}{30pt}\selectfont\bfseries}
+	\setkomafont{references}{\fontsize{11.6pt}{14pt}\selectfont}
+	\setkomafont{citation}{\fontsize{15pt}{18pt}\selectfont}
+
+	\setkomafont{authorname}{\fontsize{24pt}{1em}\selectfont}
+	\setkomafont{authoraffiliation}{\fontsize{22pt}{1em}\selectfont}
+	\setkomafont{authoremail}{\fontsize{20pt}{1em}\selectfont}
 
 	\RedeclareSectionCommand[beforeskip=0.5\baselineskip,afterskip=1\baselineskip]{subsection}
-	% \setkomafont{subsubsection}{\singlespacing\fontsize{42}{50.4}\selectfont\bfseries}
-	% \setkomafont{normal}{\fontsize{30pt}{36pt}\selectfont}
-	% \fontsize{30pt}{36pt}\selectfont
 	\setlength{\IPT@HeaderInstituteFontSize}{24pt}
 	\setlength{\IPT@HeaderAddressFontSize}{22pt}
 	\setlength{\IPT@FooterNoteFontSize}{18pt}
@@ -254,6 +279,17 @@
 	\setkomafont{itemize1}{\fontsize{30pt}{36pt}\selectfont}
 	\setkomafont{itemize2}{\fontsize{26pt}{31.2pt}\selectfont}
 	\setkomafont{itemize3}{\fontsize{24pt}{28.8pt}\selectfont}
+	\setkomafont{figurecaption}{\fontsize{18pt}{21.6pt}\selectfont}
+
+	\setkomafont{abstract}{\fontsize{24pt}{28.8pt}\selectfont}
+	\setkomafont{referencestitle}{\fontsize{30pt}{36pt}\selectfont\bfseries}
+	\setkomafont{references}{\fontsize{14pt}{16.8pt}\selectfont}
+	\setkomafont{citation}{\fontsize{18pt}{21.6pt}\selectfont}
+
+	\setkomafont{authorname}{\fontsize{28pt}{1em}\selectfont}
+	\setkomafont{authoraffiliation}{\fontsize{26pt}{1em}\selectfont}
+	\setkomafont{authoremail}{\fontsize{24pt}{1em}\selectfont}
+
 	\RedeclareSectionCommand[beforeskip=0.5\baselineskip,afterskip=1\baselineskip]{subsection}
 	% \setkomafont{subsubsection}{\singlespacing\fontsize{42}{50.4}\selectfont\bfseries}
 	% \setkomafont{normal}{\fontsize{30pt}{36pt}\selectfont}
@@ -354,7 +390,7 @@
 		center upper,
 		center lower,
 		notitle,
-		fontlower=\fontsize{18pt}{21.6pt}\selectfont\itshape,
+		fontlower=\usekomafont{figurecaption}\itshape,
 	}
 }
 
@@ -572,7 +608,7 @@
 	poster_content,
 	poster_content_debug,
 	before upper = ,
-	fontupper=\fontsize{24pt}{28.8pt}\selectfont,
+	fontupper=\usekomafont{abstract},
 	adjusted title={#1}
 }
 
@@ -587,8 +623,8 @@
 	bottomtitle=4mm,
 	title code={\path[draw=IPTinstituteColor,solid,line width=4pt] ([yshift=2.25mm]title.south west) -- ([yshift=2.25mm]title.south east);},
 	flushleft title,
-	fonttitle=\fontsize{30pt}{36pt}\selectfont\bfseries,
-	fontupper=\fontsize{14pt}{16.8pt}\selectfont,
+	fonttitle=\usekomafont{referencestitle},
+	fontupper=\usekomafont{references},
 	adjusted title={#1}
 }
 
@@ -675,7 +711,7 @@
 
 \newcommand{\IPTcolbreak}{\tcblower}
 
-\newcommand{\IPTcite}[1]{{\fontsize{18pt}{21.6pt}\selectfont#1}}
+\newcommand{\IPTcite}[1]{{\usekomafont{citation}#1}}
 
 \newcommand{\IPTsection}[1]{\section*{#1}\vspace{-0.5em}}
 
@@ -717,16 +753,16 @@
      	\begin{IPTposterheader}{\inserttitle}
  	\fi
      	\ifx\@authorNameA\empty\else
-	        \fontsize{28pt}{1em}\selectfont\textbf{\@authorNameA} \\[7mm]
-	        \ifx\@authorAffiliationA\empty\else\fontsize{26pt}{1em}\selectfont{\@authorAffiliationA} \\[2mm]\fi
-	        \ifx\@authorEmailA\empty\else\fontsize{24pt}{1em}\selectfont\textit{\@authorEmailA}\fi
+	        \usekomafont{authorname}\textbf{\@authorNameA} \\[7mm]
+	        \ifx\@authorAffiliationA\empty\else\usekomafont{authoraffiliation}{\@authorAffiliationA} \\[2mm]\fi
+	        \ifx\@authorEmailA\empty\else\usekomafont{authoremail}\textit{\@authorEmailA}\fi
         \fi
 		\tcblower
 
 		\ifx\@authorNameB\empty\else
-	        \fontsize{28pt}{1em}\selectfont\textbf{\@authorNameB} \\[7mm]
-	        \ifx\@authorAffiliationB\empty\else\fontsize{26pt}{1em}\selectfont{\@authorAffiliationB} \\[2mm]\fi
-	        \ifx\@authorEmailB\empty\else\fontsize{24pt}{1em}\selectfont\textit{\@authorEmailB}\fi
+	        \usekomafont{authorname}\textbf{\@authorNameB} \\[7mm]
+	        \ifx\@authorAffiliationB\empty\else\usekomafont{authoraffiliation}{\@authorAffiliationB} \\[2mm]\fi
+	        \ifx\@authorEmailB\empty\else\usekomafont{authoremail}\textit{\@authorEmailB}\fi
         \fi
      \end{IPTposterheader}
 }
@@ -779,7 +815,6 @@
 	partopsep=0mm,
 	parsep=0mm,
 	label=\tikz{\path[fill=TUG_red,rounded corners=0pt] (0,0) rectangle (5.953mm,5.953mm);},
-%	before=\fontsize{30pt}{36pt}\selectfont\RaggedRight,
 	before=\usekomafont{itemize1}\RaggedRight,
 	after=\justifying
 }
@@ -793,7 +828,6 @@
 	partopsep=0mm,
 	parsep=0mm,
 	label=\tikz{\path[fill=black!55,rounded corners=0pt] (0,0) rectangle (5.159mm,5.159mm);},
-%	before=\fontsize{26pt}{31.2pt}\selectfont
 	before=\usekomafont{itemize2}
 }
 \setitemize[3]{
@@ -806,7 +840,6 @@
 	partopsep=0mm,
 	parsep=0mm,
 	label=\tikz{\path[fill=black!40,rounded corners=0pt] (0,0) rectangle (4.763mm,4.763mm);},
-	%before=\fontsize{24pt}{28.8pt}\selectfont
 	before=\usekomafont{itemize3}
 }
 
@@ -901,12 +934,12 @@
 			\draw [line width=0.25pt] ([xshift= \IPT@cropmarkspace]IPTpage.south east) -- +( \IPTCropMargin,0);
 			\draw [line width=0.25pt] ([yshift=-\IPT@cropmarkspace]IPTpage.south east) -- +(0,-\IPTCropMargin);
 
-			\node [font=\fontsize{14pt}{1em}\selectfont,anchor=south east] at ([xshift=-10mm,yshift=3mm]IPTpage.north east) {Created by \LaTeX\xspace using \tugPoster\xspace \tugPosterVersion\xspace by M. Quaritsch};
+			\node [font=\usekomafont{cropmarkannotation},anchor=south east] at ([xshift=-10mm,yshift=3mm]IPTpage.north east) {Created by \LaTeX\xspace using \tugPoster\xspace \tugPosterVersion\xspace by M. Quaritsch};
 
-			\node [font=\fontsize{14pt}{1em}\selectfont,anchor=south] at ([yshift=3mm]IPTpage.north) {Page Size: \MakeUppercase{\IPT@size}};
+			\node [font=\usekomafont{cropmarkannotation},anchor=south] at ([yshift=3mm]IPTpage.north) {Page Size: \MakeUppercase{\IPT@size}};
 
 
-			\node [font=\fontsize{14pt}{1em}\selectfont,anchor=south west] at ([xshift=3mm,yshift=3mm]IPTpage.north west) {{\jobname}.pdf \quad \yyyymmdddate\today \quad \currenttime};
+			\node [font=\usekomafont{cropmarkannotation},anchor=south west] at ([xshift=3mm,yshift=3mm]IPTpage.north west) {{\jobname}.pdf \quad \yyyymmdddate\today \quad \currenttime};
 
 			\node[anchor=north] (colorbar) at ([xshift=-8mm,yshift=-15mm]IPTpage.north west) {
 				\begin{tikzpicture}
