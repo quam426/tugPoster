@@ -1,0 +1,420 @@
+%!TEX root = main.tex
+
+\title{The \texttt{tugPoster} Package}
+\author{Markus Quaritsch}
+
+\begin{document}
+	\maketitle
+
+\section{Introduction}
+
+The intention of this \LaTeX class is on the one hand to greatly simplify the process of creating posters and on the other hand to produce nice-looking posters that follow the TU Graz design guidelines. The \tugPoster{} class makes among others heavy use of the  \LaTeX{} packages \texttt{tcolorbox}, \texttt{tikz} and \texttt{enumitem}. 
+
+This document describes the options, commands, and environments defined within the \tugPoster class and how you can use them to create a poster. All commands defined by \tugPoster use the prefix \texttt{IPT}.
+
+% used packages, purpose
+% prefix
+
+\section{Creating a Poster}
+
+\subsection{Minimal Working Example}
+
+To start with creating a new poster we use the following code:
+
+%----------------------------------------------------------
+\texLstInputSampleFull{lst:mwe}{Minimal Working Example}{src/1_poster_mwe}
+%----------------------------------------------------------
+
+The \LaTeX code in \Cref{lst:mwe} should produce a PDF document of size A0 (841\,mm $\times$ 1189\,mm) with the main layout elements (i.e., the institute's short name on the left, the TU Graz logo and claim on top and the institute name and address, etc.)
+
+
+%-------------------------------------------------------------------------
+\subsection{Author, Affiliation, Email Addresses}
+
+The authors can be typeset either in one column or if necessary in two columns. Therefore, the commands \texttt{\bs{}authorName$<$A/B$>$}, \texttt{\bs{}authorAffiliation$<$A/B$>$}, and \texttt{\bs{}authorEmail$<$A/B$>$} can be used. Contents of the commands with the suffix \texttt{A} are put on the left column while the others are placed on the right column. If only the commands with suffix \texttt{A} are used then the authors can span the whole page width (see \Cref{lst:authors}).
+
+%----------------------------------------------------------
+\texLstInputSample{lst:authors}{Adding authors}{src/2_authors}{14}{20}
+%----------------------------------------------------------
+
+
+%-------------------------------------------------------------------------
+\subsection{Footer} % (fold)
+\label{subsed:footer}
+
+In the footer there is some space reserved for partner and/or sponsor logos. In addition there is a QR-code that points to a landing-page on the institute's website.
+
+By default the QR-code points to the institute's website. Using the command \texttt{\bs{}QRcode} you can change use a different QR-code. The argument is the file name of the image with the desired QR-code. A number of QR-codes are already generated and are available on the network share. Please make sure to use the correct QR-code and that the QR-code points to the correct web page.
+
+For adding partner and/or sponsor logos the command \texttt{\bs{}IPTpartner} is provided. Using this command an arbitrary number of partner-logos can be added in the footer. This command has to come before \texttt{\bs{}begin\{document\}}. The logos are vertically aligned and horizontally distributed and limited to a maximum height. If you need to adjust individual logos (e.g., make it smaller), you can provide the optional argument \texttt{imgoptions}:] which contains options for the the \texttt{\bs{}includegraphics} command.
+
+\textit{Alternative:}
+
+In case you want to add further content or have special placement constraints an alternative command \texttt{\bs{}IPTpartners} is provided. The argument given to this command is placed in a minipage which is 540\,mm wide so you can add arbitrary contents. The height of the footer should not exceed 65\,mm.
+
+\Cref{lst:footer} shows an example how a number of images with different height can be vertically aligned to the center (note: for demonstration purpose a simple \texttt{\bs{}framebox} is used in the example. You can replace this with an \texttt{\bs{}includegraphics} command).
+In addition a single line of text can be added to the footer using the command \texttt{\bs{}IPTpartnersNote} mentioning funding contracts etc.
+
+%----------------------------------------------------------
+% \begin{twocol}
+% \begin{texsample}{Partners/Sponsors \& QR-code}{lst:footer}
+% [...]
+
+% \IPTpartnersNote{This project is sponsored by \ldots}
+% \IPTpartner{partner1}
+% \IPTpartner{partner2}
+% }
+
+% \QRCode{QR-tug}
+
+% \begin{document}
+
+% [...]
+% \end{texsample}
+% \tcblower
+% \fbox{\includegraphics[width=\textwidth]{poster_footer}}
+% \end{twocol}
+%----------------------------------------------------------
+
+
+
+%-------------------------------------------------------------------------
+\subsection{Main Content} % (fold)
+
+The main content is composed of several content blocks. Every content block has a title and some content. The title is set in a blue large bold font and has a rule below indicating the width of the content block.
+
+The content blocks can either span the whole page width or can be placed in two columns. It is not necessary that the whole poster is either single column or two columns. This can be mixed as necessary and as the content allows.
+
+A basic content block is added by using the environment \texttt{IPTblock} (see \Cref{lst:iptblock}). The mandatory argument is the title of the content block. By default, the content block spans the whole page width and the content inside the content block is typeset in a single column.
+
+%----------------------------------------------------------
+% \begin{twocol}
+% \begin{texsample}{Basic Content Block}{lst:iptblock}
+% \begin{document}
+
+% 	\begin{IPTblock}{Block Header}
+% 		<add content>
+% 	\end{IPTblock}
+
+% 	...
+% \end{texsample}
+% \tcblower
+% \fbox{\includegraphics[width=\textwidth]{poster_basic-content}}
+% \end{twocol}
+%----------------------------------------------------------
+
+If you want to place two content blocks next to each other (i.e., use a two-column layout) you have to use the environment \texttt{IPTtwocol} (see \Cref{lst:iptlayouttwocol}). Right after the beginning of the environment goes the content for the left column, followed by the command \texttt{\bs{}IPTcolbreak} and then the content for the right column. The content for both columns is usually a \texttt{IPTblock} content block. Of course, you can have more than one \texttt{IPTblock} in every column.
+
+
+%----------------------------------------------------------
+% \begin{twocol}
+% \begin{texsample}{Two-column Layout}{lst:iptlayouttwocol}
+% [...]
+% \begin{IPTtwocol}
+
+% 	\begin{IPTblock}{Block Header}
+% 		<add content>
+% 	\end{IPTblock}
+
+% \IPTcolbreak
+
+% 	\begin{IPTblock}{Block Header}
+% 		<add content>
+% 	\end{IPTblock}
+
+% \end{IPTtwocol}
+% [...]
+% \end{texsample}
+% \tcblower
+% \fbox{\includegraphics[width=\textwidth]{poster_layout-twocol}}
+% \end{twocol}
+%----------------------------------------------------------
+
+The content within a content block can also be either single column or two columns. The easy way to typeset the content in two columns is to simply add the option \texttt{twocol} to the \texttt{IPTblock} environment (see \Cref{lst:iptcontenttwocol})
+
+%----------------------------------------------------------
+% \begin{twocol}
+% \begin{texsample}{Two-column Layout}{lst:iptcontenttwocol}
+% [...]
+
+% \begin{IPTblock}[twocol]{Block Header}
+% 	<add content>
+% \IPTcolbreak
+% 	<add content>
+% \end{IPTblock}
+
+% [...]
+% \end{texsample}
+% \tcblower
+% \fbox{\includegraphics[width=\textwidth]{poster_content-twocol}}
+% \end{twocol}
+%----------------------------------------------------------
+
+
+Another way to typeset the content within a content block in two columns is to use the \texttt{IPTcols} environment. This environment produces a smaller gap between columns and should therefore \textbf{not} be used to separate columns at the first level but either to further split the content of the left or right column. (on the top-level you can use \textbf{IPTtwocol} also within a content block spanning the whole page width). \texttt{IPTcols} is also more flexible concerning the width of the columns. As mandatory argument you have to specify the width of the left column (between 0.0 and 1.0). This allows to have an image next to some text and use more space for the image or the text, depending on the situation. Obviously, after the \texttt{IPTcols} environment you can place further content which spans both columns (see \Cref{lst:iptcontenttwocol2}). 
+
+%----------------------------------------------------------
+% \begin{twocol}
+% \begin{texsample}{Nested two-column Layout}{lst:iptcontenttwocol2}
+% [...]
+
+% \begin{IPTblock}[twocol]{Block Header}
+% 	\begin{IPTcols}{0.4}
+% 		<content>
+% 	\IPTcolbreak
+% 		<content>
+% 	\end{IPTcols}
+% 	<more content>
+% \IPTcolbreak
+% 	<add content>
+% \end{IPTblock}
+
+% [...]
+% \end{texsample}
+% \tcblower
+% \fbox{\includegraphics[width=\textwidth]{poster_content-twocol-2}}
+% \end{twocol}
+%----------------------------------------------------------
+
+For more complex layouts it is often the case that you need to place a figure next to some text and another figure below spans both columns, etc. In such cases it is necessary (and intended) to arbitrarily nest the above described environments \texttt{IPTblock}, \texttt{IPTtwocol}, and \texttt{IPTcols}.
+
+
+%-------------------------------------------------------------------------
+\subsubsection{Subheader, Subsubheader} % (fold)
+\label{ssub:subheader_subsubheader}
+
+Within the content blocks you can add further headlines, i.e., subheader and subsubheader. Therefore, dedicated commands have been introduced: \texttt{\bs{}IPTsubheader} and \texttt{\bs{}IPTsubsubheader} (see \Cref{lst:iptsection}).
+
+
+%----------------------------------------------------------
+% \begin{twocol}
+% \begin{texsample}{Subheader, Subsubheader}{lst:iptsection}
+% [...]
+
+% \begin{IPTblock}[twocol]{Section Headline}
+% 	\IPTsection{Subheader}
+% 	\lipsum[1]
+% \IPTcolbreak
+% 	\IPTsection{Subheader}
+% 	\lipsum[1]
+% \end{IPTblock}
+
+% [...]
+% \end{texsample}
+% \tcblower
+% \fbox{\includegraphics[width=\textwidth]{poster_subheader}}
+% \end{twocol}
+%----------------------------------------------------------
+
+
+
+% subsubsection subheader_subsubheader (end)
+
+\subsection{Bullet Lists}
+
+Bullet lists can be used as in every \LaTeX document via the \texttt{itemize} environment. Via the \texttt{enumitem} package the layout of the lists has been adapted to match the intended style. Up to three itemized lists can be nested (see \Cref{lst:itemize}).
+
+%----------------------------------------------------------
+% \begin{twocol}
+% \begin{texsample}{Bullet Lists}{lst:itemize}
+% \begin{IPTtwocol}
+% 	\begin{IPTblock}{Block Header}
+% 		\begin{itemize}
+% 			\item Item 1
+% 			\item Item 2
+% 			\begin{itemize}
+% 				\item Item 2.1
+% 				\begin{itemize}
+% 					\item Item 2.1.1
+% 				\end{itemize}
+% 			\end{itemize}
+% 		\end{itemize}
+% 	\end{IPTblock}
+% \end{IPTtwocol}
+% \end{texsample}
+% \tcblower
+% \fbox{\includegraphics[width=\textwidth]{poster_itemize}}
+% \end{twocol}
+%----------------------------------------------------------
+
+
+\subsection{Figures}
+
+Adding figures to a latex document and placing them at a certain position is always cumbersome in \LaTeX documents. Hence, we provide a new command \texttt{\bs{IPTgraphics}} that allows to easily add figures at a certain position. 
+\texttt{IPTgraphics} takes an optional argument with of key-value options as described below and a mandatory argument of the file name to include.
+
+\texttt{IPTgraphics} supports the following arguments:
+\begin{description}
+	\item[\texttt{imgoptions}:] this is a list of options that is directly passed to the \texttt{\bs{}includegraphics} command. here you can adjust the size of the image, rotate or crop the image, etc.
+	\item[\texttt{caption}:] here you can specify the caption which is typeset below the image
+	\item[\texttt{label}:] allows to define a label for the figure that can be used in a \texttt{\bs{}ref} command
+\end{description}
+
+The content block added via \texttt{IPTgraphics} always spans the current maximum text width / column width. If you want to use more or less space for the image you need to adjust the text width (i.e. the column width). As option for the \texttt{includegraphics} command you can use \texttt{\bs{}textwidth} which is the current width of the content block.
+
+%----------------------------------------------------------
+% \begin{twocol}
+% \begin{texsample}{Adding Images}{lst:graphics}
+% [...]
+
+% \begin{IPTblock}{Section Headline}
+
+% 	\IPTgraphics[
+% 		imgoptions={width=0.6\textwidth},
+% 		caption={Caption of this picture},
+% 		label=fig:rw_bcv,
+% 		]{img_2}
+
+% \end{IPTblock}
+
+% [...]
+% \end{texsample}
+% \tcblower
+% \fbox{\includegraphics[width=\textwidth]{poster_image}}
+% \end{twocol}
+%----------------------------------------------------------
+
+%  \IPTgraphics[imgoptions={width=0.9\textwidth}]{img_8}
+	% \IPTgraphics[
+	% 	imgoptions={width=0.8\textwidth},
+	% 	caption={Normalising in the MF-Plane [5]},
+	% 	label=fig:rw_bcv,
+	% 	]{img_9}
+
+
+\subsection{Abstract}
+
+In case you want to add a short abstract to the poster, \tugPoster provides a dedicated content block for this because the text of the abstract is slightly smaller and the the text is justified. To add an abstract simply use the environment \texttt{IPTabstractblock} similar to the previously explained \texttt{IPTblock}. \texttt{IPTabstractblock} does not support two-column text and should therefore be only used spanning one column of the whole poster.
+
+\subsection{References}
+
+Adding references to the poster requires to steps. First you need to add a content block using the \texttt{IPTrefsblock} environment. Similar to the abstract content block the references content block does not support the \texttt{twocolumn} option. The references block can be used either in a single column or spanning both columns.
+
+Second, inside the \texttt{IPTrefsblock} use the environment \texttt{refs} to add your references. Every reference is a single \texttt{\bs{}item} inside the \texttt{refs} environment. 
+
+\textbf{UPDATE:} The contents of the references are automatically typeset in either two or three columns, depending on the width of the references block.
+
+
+%----------------------------------------------------------
+% \begin{twocol}
+% \begin{texsample}{References Content Block}{lst:references}
+% [...]
+
+% \begin{IPTrefsblock}{References}
+% 	\begin{refs}[threecol]
+% 		\item ...
+% 		\item ...
+% 		...
+% 	\end{refs}
+% \end{IPTrefsblock}
+
+% [...]
+% \end{texsample}
+% \tcblower
+% \fbox{\includegraphics[width=\textwidth]{poster_refs}}
+% \end{twocol}
+%----------------------------------------------------------
+
+
+\section{Summary of Commands/Environments/Options}
+
+\begin{description}
+	\item[Document Class Options:]~
+		\begin{itemize}
+			\item \texttt{debug}: enables the debugging feature and highlights the bounding boxes of the content elements in different colors (see \Cref{sec:debugging})
+			\item \texttt{cropmarks}: produces a PDF that includes crop marks (and color bars) for cropping the printed poster
+		\end{itemize}
+	\item[\texttt{IPTpartnersNote}:]
+		Adds a note to the footer. Typically used to give credits to sponsors and partners involved.
+	\item[\texttt{IPTpartner}:]
+		Adds the logo of a partner to the footer. This command can be used multiple times
+	\item[\texttt{IPTpartners}:]
+		Alternative to \texttt{\bs{}IPTpartner} if some special content needs to be added to the footer. (see \Cref{subsed:footer})
+	\item[\texttt{IPTblock}:] Creates a basic content block. \\
+		Mandatory argument: 
+		\begin{itemize}
+			\item Block Header: Headline of the content block
+		\end{itemize}
+		Optional argument:
+		\begin{itemize}
+			\item \texttt{twocolumn}: if specified the content block is split into two columns with a large gap between the two columns. Should be used for content blocks spanning the whole width.
+		\end{itemize}
+
+	\item[\texttt{IPTtwocol}:] Separate the main layout into two columns. Shall only be used at the top level of the document with \texttt{IPTblock} elements as children. Produces a large gap between the two columns.
+
+	\item[\texttt{IPTcols}:] Allows to split the content into two columns having only a small gap between the two columns. Should be used either for content blocks spanning only one column of the whole poster, or nested in a column of a content block spanning the whole width.\\
+	Mandatory argument:
+		\begin{itemize}
+			\item Column width: fractional number between 0.0 and 1.0 specifying the width of the left column, typically 0.5.
+		\end{itemize}
+
+	\item[\texttt{IPTabstractblock}:] Variant of a basic content block \texttt{IPTblock} which uses a smaller font for the content. Should only be used when you want to add an abstract. Should only be used for a single column of the poster (i.e., \textbf{not} spanning the whole page width).
+
+	\item[\texttt{IPTrefsblock}:] Variant of a basic content block \texttt{IPTblock} which uses a smaller font for the block header and the content. Should only be used for adding a list of references to the poster. The references block can be used either for a single column of the poster or span the whole width.
+
+	\item[\texttt{refs}:] This environment is a specialized enumerate environment intended to list the references. Hence, this environment should always be used in combination with \texttt{IPTrefsblock}. Simply add each reference as a separate \texttt{\bs{}item}. The number of columns is automatically adjusted depending on the line width of the \texttt{\bs{}IPTrefsblock}\\
+
+	\item[\texttt{\bs{}IPTgraphics}:] Allows to easily add images. This command can be used similar to the commonly used \texttt{includegraphics} command. Using this command the image is horizontally centered within the current content column. Optionally you can specify a caption and a label.\\
+	Optional arguments:
+	\begin{itemize}
+		\item \texttt{imgoptions}: The argument for this option is directly passed on to the \texttt{includegraphics} command. This allows to adjust the size of the image, rotate the image or crop it.
+		\item \texttt{caption}: Adds a caption to the image.
+		\item \texttt{label}: Adds a label to the image which can be used with the \texttt{ref} command.
+	\end{itemize}
+
+
+	\item[\texttt{\bs{}IPTcolbreak}:] Adds a column break. All content elements after this command are added to the right column of the current element. Can be used within \texttt{IPTblock} (if the argument \texttt{twocol} is given), \texttt{IPTtwocol}, and \texttt{IPTcols}.
+
+	\item[\texttt{\bs{}IPTsubheader}:] Add further headlines within the \texttt{\bs{}IPTblock} content block.
+
+	\item[\texttt{\bs{}IPTsubsubheader}:] Add further headlines within the \texttt{\bs{}IPTblock} content block.
+
+	\item[Bullet lists:] for bullet lists the \texttt{itemize} environment can be used as usual up to a nesting level of three. The appearance of the list has been adapted to match the given layout.
+\end{description}
+
+\section{Example}
+
+\tugPoster has been successfully used to create a poster containing itemized lists and many images. By nesting \texttt{IPTblock}, \texttt{IPTtwocol}, and \texttt{IPTcols} rather complex layouts can be realized as shown in \Cref{fig:sample_poster}.
+
+% \begin{minipage}{\textwidth}
+\begin{figure}
+\centering
+% \vskip1em
+\fbox{\includegraphics[width=0.8\textwidth]{sample_poster}}
+\caption{Sample poster created with \tugPoster showing a fancy layout.}
+\label{fig:sample_poster}
+\end{figure}
+% \end{minipage}
+
+\section{Debugging / Layout Support}
+\label{sec:debugging}
+
+If you need to find out why a certain content element does not move further up or to the left/right it is often helpful to show the bounding boxes of the content elements. This can be achieved by adding the class option \texttt{debug} which shows the bounding box of every content element as well as the gaps between columns.
+\texttt{IPTtwocol} is shown in red, \texttt{IPTcols} is shown in green, and figures are shown in magenta (see \Cref{fig:debug}).
+
+
+% \begin{minipage}{\textwidth}
+\begin{figure}
+\centering
+\vskip1em
+\fbox{\includegraphics[width=0.8\textwidth]{sample_debug}}
+\caption{Sample poster with the \texttt{debug} option enabled.}
+\label{fig:debug}
+\end{figure}
+% \end{minipage}
+
+\begin{figure}
+\centering
+\vskip1em
+\fbox{\includegraphics[width=0.8\textwidth]{sample_cropmarks}}
+\caption{Sample poster with crop marks ready to print.}
+\label{fig:cropmarks}
+\end{figure}
+
+\section{Known Issues}
+
+Currently there are no known issues. But in case you find some ``misbehavior'' feel free to contact the author with a detailed description ;-)
+
+It would be nice to integrate bibtex for generating the references automatically. Maybe this will be added in a future version.
+
+\end{document}
