@@ -1,0 +1,59 @@
+\documentclass{tugPoster}
+
+% set path where all required images can be found
+\graphicspath{{../../img/}}
+
+% \usepackage{lipsum}
+\usepackage{babel}
+\usepackage[pangram]{blindtext}
+
+% configure name, address and contact info of the institute
+\IPTInstituteName{Institute of \LaTeX{} Experts}
+\IPTInstituteAddress{Rechbauerstraße 12, 8010 Graz, Austria}
+\IPTInstituteURL{latex.tugraz.at}
+\IPTInstituteEmail{noreply@tugraz.at}
+\IPTInstituteShort{Short}
+
+% set title of the poster
+\title{Poster Title}
+
+\authorNameA{Author Name, Author Name, Author Name, Author Name, Author Name, Author Name}
+\authorAffiliationA{Institute for \LaTeX{} Experts, Graz University of Technology}
+\authorEmailA{Email@Address}
+
+\IPTpartners{
+	  \centering
+	  \raisebox{-75pt}{\framebox(700,150){}}
+	  \hspace*{180mm}
+	  \raisebox{-50pt}{\framebox(400,100){}}
+}
+
+\begin{document}
+	\maketitle
+
+\begin{IPTtwocol}
+	\begin{IPTrefsblock}{References}
+		\begin{refs}
+			\item \blindtext[2]
+			\item \blindtext[2]
+			\item \blindtext[2]
+			\item \blindtext[2]
+			\item \blindtext[2]
+			\item \blindtext[2]
+		\end{refs}
+	\end{IPTrefsblock}
+\end{IPTtwocol}
+
+	\begin{IPTrefsblock}{References}
+		\begin{refs}
+			\item \blindtext[2]
+			\item \blindtext[2]
+			\item \blindtext[2]
+			\item \blindtext[2]
+			\item \blindtext[2]
+			\item \blindtext[2]
+		\end{refs}
+	\end{IPTrefsblock}
+
+
+\end{document}

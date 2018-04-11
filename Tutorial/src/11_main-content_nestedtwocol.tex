@@ -1,0 +1,42 @@
+\documentclass{tugPoster}
+
+% set path where all required images can be found
+\graphicspath{{../../img/}}
+
+\usepackage{lipsum}
+
+% configure name, address and contact info of the institute
+\IPTInstituteName{Institute of \LaTeX{} Experts}
+\IPTInstituteAddress{Rechbauerstraße 12, 8010 Graz, Austria}
+\IPTInstituteURL{latex.tugraz.at}
+\IPTInstituteEmail{noreply@tugraz.at}
+\IPTInstituteShort{Short}
+
+% set title of the poster
+\title{Poster Title}
+
+\authorNameA{Author Name, Author Name, Author Name, Author Name, Author Name, Author Name}
+\authorAffiliationA{Institute for \LaTeX{} Experts, Graz University of Technology}
+\authorEmailA{Email@Address}
+
+\IPTpartners{
+	  \centering
+	  \raisebox{-75pt}{\framebox(700,150){}}
+	  \hspace*{180mm}
+	  \raisebox{-50pt}{\framebox(400,100){}}
+}
+
+\begin{document}
+	\maketitle
+
+	\begin{IPTblock}[twocol]{Block Header}
+		\begin{IPTcols}{0.5}
+			\lipsum[1]
+		\IPTcolbreak
+			\lipsum[2]
+		\end{IPTcols}
+	\IPTcolbreak
+		\lipsum[3-4]
+	\end{IPTblock}
+
+\end{document}

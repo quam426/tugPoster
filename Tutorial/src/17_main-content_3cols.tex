@@ -1,0 +1,64 @@
+\documentclass{tugPoster}
+
+% set path where all required images can be found
+\graphicspath{{../../img/}}
+
+\usepackage{lipsum}
+% \usepackage{babel}
+% \usepackage[pangram]{blindtext}
+
+% configure name, address and contact info of the institute
+\IPTInstituteName{Institute of \LaTeX{} Experts}
+\IPTInstituteAddress{Rechbauerstraße 12, 8010 Graz, Austria}
+\IPTInstituteURL{latex.tugraz.at}
+\IPTInstituteEmail{noreply@tugraz.at}
+\IPTInstituteShort{Short}
+
+% set title of the poster
+\title{Poster Title}
+
+\authorNameA{Author Name, Author Name, Author Name, Author Name, Author Name, Author Name}
+\authorAffiliationA{Institute for \LaTeX{} Experts, Graz University of Technology}
+\authorEmailA{Email@Address}
+
+\IPTpartners{
+	  \centering
+	  \raisebox{-75pt}{\framebox(700,150){}}
+	  \hspace*{180mm}
+	  \raisebox{-50pt}{\framebox(400,100){}}
+}
+
+\begin{document}
+	\maketitle
+
+	% color1=IPTinstituteColor!5!,
+	% color2=IPTinstituteColor!15!,
+	% color3=IPTinstituteColor!5!,
+	% imageHeight=9.5\IPTRelHeight,
+	% image1=ivt-em_measuring,
+	% image2=ivt-em_simulation,
+	% image3=ivt-em_consulting,
+
+
+\begin{IPTcolorBlock3}[
+	color2=gray!15!,
+	color3=gray!50!,
+	]{Header}
+
+	\IPTsection{Left Column}
+	\lipsum[1]
+
+	\IPTcolbreak
+
+	\IPTsection{Middle Column}
+	\lipsum[2]
+
+	\IPTcolbreak
+
+	\IPTsection{Right Column}
+	\lipsum[3]
+
+\end{IPTcolorBlock3}
+
+
+\end{document}

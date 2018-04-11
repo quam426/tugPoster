@@ -85,7 +85,7 @@
 	fonttitle=\bfseries,
 	title={Listing~\thetcbcounter: #3},
 	listing file={#4},
-	listing options={style=tcblatex, xleftmargin=2mm, frame=l,rulecolor=\color{linenumber_frame},numberblanklines=false,tabsize=4, numbers=left, numberstyle=\tiny\color{gray},	commentstyle=\color{blue}, #1},
+	listing options={style=tcblatex, xleftmargin=2mm, frame=l,rulecolor=\color{linenumber_frame},numberblanklines=false,tabsize=4, numbers=left, numberstyle=\tiny\color{gray},	commentstyle=\color{blue},breaklines=true,breakatwhitespace=false, #1},
 }
 \newtcbinputlisting[auto counter]{texlstinputsamplepart}[6][]{
     colback=ITI_blue!5,colframe=ITI_blue,
@@ -96,7 +96,7 @@
 	fonttitle=\bfseries,
 	title={Listing~\thetcbcounter: #3},
 	listing file={#4},
-	listing options={firstline=#5,lastline=#6,firstnumber=#5,style=tcblatex, xleftmargin=2mm, frame=l,rulecolor=\color{linenumber_frame},numberblanklines=false,tabsize=4, numbers=left, numberstyle=\tiny\color{gray},	commentstyle=\color{blue}, #1},
+	listing options={firstline=#5,lastline=#6,firstnumber=#5,style=tcblatex, xleftmargin=2mm, frame=l,rulecolor=\color{linenumber_frame},numberblanklines=false,tabsize=4, numbers=left, numberstyle=\tiny\color{gray},	commentstyle=\color{blue},breaklines=true,breakatwhitespace=false, #1},
 	before upper=\textit{\footnotesize\quad[\ldots]},
 	after upper=\textit{\footnotesize\quad[\ldots]}
 }

@@ -3,6 +3,8 @@
 % set path where all required images can be found
 \graphicspath{{../../img/}}
 
+\usepackage{lipsum}
+
 % configure name, address and contact info of the institute
 \IPTInstituteName{Institute of \LaTeX{} Experts}
 \IPTInstituteAddress{Rechbauerstraße 12, 8010 Graz, Austria}
@@ -17,13 +19,28 @@
 \authorAffiliationA{Institute for \LaTeX{} Experts, Graz University of Technology}
 \authorEmailA{Email@Address}
 
-
-\IPTpartnersNote{This project is sponsored by \ldots}
-\IPTpartner{partner1}
-\IPTpartner{partner2}
-
-\QRCode{QR-tug}
+\IPTpartners{
+	  \centering
+	  \raisebox{-75pt}{\framebox(700,150){}}
+	  \hspace*{180mm}
+	  \raisebox{-50pt}{\framebox(400,100){}}
+}
 
 \begin{document}
 	\maketitle
+
+	\begin{IPTtwocol}
+
+		\begin{IPTblock}{Block Header}
+			\lipsum[1]
+		\end{IPTblock}
+
+	\IPTcolbreak
+
+		\begin{IPTblock}{Block Header}
+			\lipsum[2]
+		\end{IPTblock}
+
+	\end{IPTtwocol}
+
 \end{document}
