@@ -49,6 +49,7 @@
 \RequirePackage[cmyk]{xcolor}
 \RequirePackage{xkeyval}
 \RequirePackage{ifthen}
+\RequirePackage{qrcode}
 
 \newif\ifIPT@debug
 \newif\ifIPT@cropmarks
@@ -56,13 +57,14 @@
 \newlength{\IPTFrameMargin}
 
 
+\newcommand{\IPT@size}{a0}
 \DeclareOptionX{debug}{\IPT@debugtrue}
 \DeclareOptionX{cropmarks}{\IPT@cropmarkstrue}
 \DeclareOptionX{croprectangle}{\IPT@cropmarkstrue\IPT@croprectangletrue}
 \DeclareOptionX{frame}[0mm]{\setlength\IPTFrameMargin{#1}}
 \DeclareOptionX*{\PackageWarning{tugPoster}{‘\CurrentOption’ ignored}}
-\define@choicekey*{tugPoster.cls}{size}[\val\nr]{A0,A1,70x100}[A0]{
-	\newcommand{\IPT@size}{\val}
+\define@choicekey*{tugPoster.cls}{size}[\val\nr]{A0,A1,70x100}[a0]{
+	\renewcommand{\IPT@size}{\val}
 }
 
 \ProcessOptionsX
@@ -303,8 +305,8 @@
 
 \definecolor{TUG_red}{cmyk}{0,.96,.57,0}
 \@ifundefinedcolor{IPTinstituteColor}{
-%	\definecolor{IPTinstituteColor}{cmyk}{.90,.52,.17,.02}
-	\definecolor{IPTinstituteColor}{cmyk}{0,.96,.57,0}
+	\definecolor{IPTinstituteColor}{cmyk}{.90,.52,.17,.02}
+%	\definecolor{IPTinstituteColor}{cmyk}{0,.96,.57,0}
 
 }
 
@@ -852,12 +854,13 @@
 % ####   heavily uses tikz for positioning all elements. 
 % #### IMPORTANT: this code assumes a poster size of 700x1000 mm!
 
-\def\theQRCode{QR-TUG}
-\newcommand{\QRCode}[1]{\def\theQRCode{#1}}
+\newif\ifIPT@showQR
+\IPT@showQRtrue
+\newcommand{\NoQRCode}{\IPT@showQRfalse}
 
 \newif\ifIPT@showNFC
-\IPT@showNFCtrue
-\newcommand{\NoNFC}{\IPT@showNFCfalse}
+\IPT@showNFCfalse
+\newcommand{\ShowNFC}{\IPT@showNFCtrue}
 
 \def\IPT@partnerlogo@options{}
 \define@key{IPTpartnerlogo}{imgoptions}[]{\def\IPT@partnerlogo@options{#1}}
@@ -884,8 +887,9 @@
 
 \newcommand{\IPTInstituteName}[1]{\def\IPT@instituteName{#1}}
 \newcommand{\IPTInstituteAddress}[1]{\def\IPT@instituteAddress{#1}}
+\newcommand{\IPTInstituteShort}[1]{\def\IPT@instituteShort{#1}}
 \newcommand{\IPTInstituteLogo}[1]{\def\IPT@instituteLogo{#1}}
-\newcommand{\IPTInstituteURL}[1]{\def\IPT@instituteURL{#1}}
+\newcommand{\IPTInstituteURL}[2][]{\def\IPT@instituteURL{#2}\def\IPT@qrUrl{#1}}
 \newcommand{\IPTInstituteEmail}[1]{\def\IPT@instituteEmail{#1}}
 
 \newcommand{\IPTpartnersNote}[1]{\def\IPT@partnersNote{#1}}
@@ -997,7 +1001,16 @@
 		% ## institute logo on the left side
 		% ##
 	    \node[anchor=north east, yshift=-1.2\IPTHeaderHeight,xshift=0.75\IPTMarginLeft+\IPTFrameMargin,outer sep=0,inner sep=0] (institute_logo) at (IPTpage.north west)
-	        {\includegraphics[width=0.85\IPTHeaderHeight]{\IPT@instituteLogo}};
+	        {
+	         \ifx\IPT@instituteLogo\undefined
+	        	\begin{tikzpicture}
+        			\path [fill=TUG_red, anchor=north west] (0,0) rectangle (-0.85\IPTHeaderHeight,-0.75\IPTHeaderHeight);
+        			\node [rotate=90] (institute_short) at (-0.72\IPTHeaderHeight,-0.78\IPTHeaderHeight) {\fontsize{\IPTHeaderHeight}{1em}\fontfamily{ugq}\selectfont\color{black!35!white}\uppercase\expandafter{\IPT@instituteShort}};
+	        	\end{tikzpicture}
+	         \else
+	        	\includegraphics[width=0.85\IPTHeaderHeight]{\IPT@instituteLogo}
+	         \fi
+	         };
 
 		% ##
 		% ##  FOOTER
@@ -1008,33 +1021,41 @@
 	    		\draw [line width=1pt] (0,0) -- (\IPTPageWidth-\IPTMarginLeft-\IPTMarginRight,0);
 	    	\end{tikzpicture}
 	    };
+	    \ifIPT@showQR
 	    % footer content: QR/NFC
 	    \node[anchor=east,outer sep=0,inner sep=0] (nfc_qr) at (IPTfooter.east) {
 	        \begin{tikzpicture}
 	        	\ifIPT@showNFC
 	        		\node[anchor=north east,outer sep=0,inner sep=0] (nfc) at (0,0) {
-		                \includegraphics[width=\IPTFooterQRWidth]{img/QR_NFC}
+		                \includegraphics[width=\IPTFooterQRWidth]{QR_NFC}
 		            };
-					\ifx\theQRCode\empty\else
 		            \node[anchor=north east,outer sep=0,inner sep=0] (qr_code) at (0,0) {
-		                \includegraphics[width=\IPTFooterQRWidth,trim={2.5mm 2.5mm 3mm 2.5mm}]{\theQRCode}
-		            };
+		            \ifx\IPT@qrUrl\empty
+		                \qrcode[height=\IPTFooterQRWidth]{http://\IPT@instituteURL}
+		            \else
+		                %\includegraphics[width=\IPTFooterQRWidth,trim={2.5mm 2.5mm 3mm 2.5mm}]{\theQRCode}
+		                \qrcode[height=\IPTFooterQRWidth]{\IPT@qrUrl}
 	            	\fi
+		            };
 		            \node[anchor=north east,outer sep=0,inner sep=0,rotate=90]{
 		                {\fontsize{\IPT@FooterURLFontSize}{1em}\selectfont\textbf{\IPT@instituteURL}\,\,}
 		            };
 	        	\else
-		            \ifx\theQRCode\empty\else
-		            \node[anchor=north east,yshift=-20mm,outer sep=0,inner sep=0] (qr_code) at (0,0) {
-		                \includegraphics[width=\IPTFooterQRWidth,trim={2.5mm 2.5mm 3mm 2.5mm}]{\theQRCode}
+		            \node[anchor=north east,yshift=-10mm,outer sep=0,inner sep=0] (qr_code) at (0,0) {
+		            \ifx\IPT@qrUrl\empty
+		                \qrcode[height=\IPTFooterQRWidth]{http://\IPT@instituteURL}
+		            \else
+%		                \includegraphics[width=\IPTFooterQRWidth,trim={2.5mm 2.5mm 3mm 2.5mm}]{\theQRCode}
+		                \qrcode[height=\IPTFooterQRWidth]{\IPT@qrUrl}
+	            	\fi
 		            };
 		            \node[anchor=north east,outer sep=0,inner sep=0,rotate=90]{
 		                {\fontsize{\IPT@FooterURLFontSize}{1em}\selectfont\textbf{\IPT@instituteURL}\,\,}
 		            };
 	            \fi
-	            \fi
 	        \end{tikzpicture}
 	    };
+	    \fi
 	    \newlength{\IPT@footerWidth}\setlength{\IPT@footerWidth}{\IPTPageWidth-\IPTMarginLeft-\IPTMarginRight}
 
 	    % footer content: partner logos
