@@ -370,6 +370,7 @@
 		flushleft title,
 		%flushleft upper,
 		fonttitle=\usekomafont{subtitle},
+		box align=top,
 	}
 }
 \tcbset{
@@ -393,6 +394,7 @@
 		center lower,
 		notitle,
 		fontlower=\usekomafont{figurecaption}\itshape,
+		box align=top,
 	}
 }
 
@@ -448,7 +450,7 @@
 
 \newenvironment{IPTblock}[2][]{
 	\setkeys{IPTcontentblock}{#1}
-	\justify
+	%\justify
 	\ifx\IPT@twocols\empty
 		\begin{tcolorbox}[
 			poster_content,
@@ -672,6 +674,7 @@
 
 \newtcolorbox{IPTtwocol}{
 	poster_twocol,
+	sidebyside align=top,
 	poster_twocolumn_debug,
 }
 
@@ -689,18 +692,25 @@
 		arc=0pt,
 		left=0pt,
 		right=0pt,
-		top=0mm,
+		top=-1em+3mm,
+		%top=0mm,
 		toptitle=0mm,
 		sidebyside,
 		sidebyside align=top,
 		sidebyside gap=5mm,
+		middle=0mm,
+		box align=top,
+		%baseline=1em,
+		enlarge top initially by=1em,
 	}
 }
 \newtcolorbox{IPTcols}[1]{
 	poster_cols,
+	sidebyside align=top,
 	lefthand ratio=#1,
 	poster_column_debug,
 }
+
 
 
 %########################################################################################
