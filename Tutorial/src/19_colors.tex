@@ -1,11 +1,9 @@
 \documentclass{tugPoster}
 
 % set path where all required images can be found
-\graphicspath{{sampleImg/}, {../../img/}}
+\graphicspath{{../../img/}}
 
 \usepackage{lipsum}
-% \usepackage{babel}
-% \usepackage[pangram]{blindtext}
 
 % configure name, address and contact info of the institute
 \IPTInstituteName{Institute of \LaTeX{} Experts}
@@ -28,41 +26,24 @@
 	  \raisebox{-50pt}{\framebox(400,100){}}
 }
 
+\definecolor{IPTHeaderColor}{cmyk}{0,.96,.57,0}
+\definecolor{IPTInstituteColor}{cmyk}{0,.36,1,0}
+
 \begin{document}
 	\maketitle
 
-	% color1=IPTinstituteColor!5!,
-	% color2=IPTinstituteColor!15!,
-	% color3=IPTinstituteColor!5!,
-	% imageHeight=9.5\IPTRelHeight,
-	% image1=ivt-em_measuring,
-	% image2=ivt-em_simulation,
-	% image3=ivt-em_consulting,
+	\begin{IPTtwocol}
 
-
-\begin{IPTcolorBlock3}[
-	color2=gray!15!,
-	color3=gray!50!,
-	image1=hdr_left,
-	image2=hdr_middle,
-	image3=hdr_right,
-	imageHeight=10\IPTRelHeight,
-	]{Header}
-
-	\IPTsection{Left Column}
-	\lipsum[1]
+		\begin{IPTblock}{Block Header}
+			\lipsum[1]
+		\end{IPTblock}
 
 	\IPTcolbreak
 
-	\IPTsection{Middle Column}
-	\lipsum[2]
+		\begin{IPTblock}{Block Header}
+			\lipsum[2]
+		\end{IPTblock}
 
-	\IPTcolbreak
-
-	\IPTsection{Right Column}
-	\lipsum[3]
-
-\end{IPTcolorBlock3}
-
+	\end{IPTtwocol}
 
 \end{document}
