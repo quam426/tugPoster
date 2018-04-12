@@ -10,7 +10,7 @@
 
 \section{Introduction}
 
-The intention of this \LaTeX class is on the one hand to greatly simplify the process of creating posters and on the other hand to produce nice-looking posters that follow the TU Graz design guidelines. The \tugPoster{} class makes among others heavy use of the  \LaTeX{} packages \texttt{tcolorbox}, \texttt{tikz} and \texttt{enumitem}. 
+The intention of this \LaTeX{} class is on the one hand to greatly simplify the process of creating posters and on the other hand to produce nice-looking posters that follow the TU Graz design guidelines. The \tugPoster{} class makes among others heavy use of the  \LaTeX{} packages \texttt{tcolorbox}, \texttt{tikz} and \texttt{enumitem}. 
 
 This document describes the options, commands, and environments defined within the \tugPoster{} class and how you can use them to create a poster. All commands defined by \tugPoster{} use the prefix \texttt{IPT}.
 
@@ -27,7 +27,7 @@ To start with creating a new poster we use the following code:
 \texLstInputSampleFull{lst:mwe}{Minimal Working Example}{src/1_poster_mwe}
 %----------------------------------------------------------
 
-The \LaTeX code in \Cref{lst:mwe} should produce a PDF document of size A0 (841\,mm $\times$ 1189\,mm) with the main layout elements (i.e., the institute's short name on the left, the TU Graz logo and claim on top and the institute name and address, etc.)
+The \LaTeX{} code in \Cref{lst:mwe} should produce a PDF document of size A0 (841\,mm $\times$ 1189\,mm) with the main layout elements (i.e., the institute's short name on the left, the TU Graz logo and claim on top and the institute name and address, etc.)
 
 \subsection{Adjusting Poster Size}
 
@@ -142,7 +142,7 @@ Within the content blocks you can add further headlines, i.e., subheader and sub
 
 \subsection{Bullet Lists}
 
-Bullet lists can be used as in every \LaTeX document via the \texttt{itemize} environment. Via the \texttt{enumitem} package the layout of the lists has been adapted to match the intended style. Up to three itemized lists can be nested (see \Cref{lst:itemize}).
+Bullet lists can be used as in every \LaTeX{} document via the \texttt{itemize} environment. Via the \texttt{enumitem} package the layout of the lists has been adapted to match the intended style. Up to three itemized lists can be nested (see \Cref{lst:itemize}).
 
 %----------------------------------------------------------
 \texLstInputSample{lst:itemize}{Bullet Lists}{src/13_main-content_itemize}{32}{45}
@@ -151,7 +151,7 @@ Bullet lists can be used as in every \LaTeX document via the \texttt{itemize} en
 
 \subsection{Figures}
 
-Adding figures to a latex document and placing them at a certain position is always cumbersome in \LaTeX documents. Hence, we provide a new command \texttt{\bs{IPTgraphics}} that allows to easily add figures at a certain position. 
+Adding figures to a latex document and placing them at a certain position is always cumbersome in \LaTeX{} documents. Hence, we provide a new command \texttt{\bs{IPTgraphics}} that allows to easily add figures at a certain position. 
 \texttt{IPTgraphics} takes an optional argument with of key-value options as described below and a mandatory argument of the file name to include.
 
 \texttt{IPTgraphics} supports the following arguments:
@@ -235,7 +235,7 @@ The colors of the block headers and the color of the rectangle on the left-hand 
 
 \subsection{Preparing for Print}
 
-If your printer does not support cuting the poster to the exact size or the printer leaves a certain margin around the poster, you can add either crop marks or a crop rectangle to the poster. This can be achieved by either adding the option \texttt{cropmarks} or \texttt{croprectangle} as documentclass option. If you add one of those options, also some meta-information such as the \LaTeX jobname, compilation date, etc., is added at the bleed.
+If your printer does not support cuting the poster to the exact size or the printer leaves a certain margin around the poster, you can add either crop marks or a crop rectangle to the poster. This can be achieved by either adding the option \texttt{cropmarks} or \texttt{croprectangle} as documentclass option. If you add one of those options, also some meta-information such as the \LaTeX{} jobname, compilation date, etc., is added at the bleed.
 
 The option \texttt{cropmarks} adds short lines slightly outside the final paper size while \texttt{croprectangle} additionally adds a thin rectangle at the page margins (see \Cref{fig:cropmarks}.
 
