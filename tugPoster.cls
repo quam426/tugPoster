@@ -151,18 +151,19 @@
 		\setlength{\IPTPageWidth}{594mm}
 		\setlength{\IPTPageHeight}{841mm}
 
-		\setlength{\IPTMarginLeft}{70mm}
-		\setlength{\IPTMarginRight}{20mm}
-		\setlength{\IPTMarginTop}{72.5mm}
-		\setlength{\IPTHeaderHeight}{70mm}
-		\setlength{\IPTMainColsGap}{25mm}
-		\setlength{\IPTContentColsGap}{20mm}
-		\setlength{\IPTFooterQRWidth}{50mm}
+		\setlength{\IPTMarginLeft}{58mm}
+		\setlength{\IPTMarginRight}{16mm}
+		\setlength{\IPTMarginTop}{60mm}
+		\setlength{\IPTHeaderHeight}{58mm}
+		\setlength{\IPTFooterHeight}{98mm}
+		\setlength{\IPTMainColsGap}{21mm}
+		\setlength{\IPTContentColsGap}{16mm}
+		\setlength{\IPTFooterQRWidth}{42mm}
 }{}
 \ifthenelse{\equal{\IPT@size}{70x100}}{
 		\setlength{\IPTPageWidth}{700mm}
 		\setlength{\IPTPageHeight}{1000mm}
-		
+
 		\setlength{\IPTMarginLeft}{70mm}
 		\setlength{\IPTMarginRight}{20mm}
 		\setlength{\IPTMarginTop}{72.5mm}
