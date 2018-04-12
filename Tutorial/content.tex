@@ -10,7 +10,7 @@
 
 The intention of this \LaTeX class is on the one hand to greatly simplify the process of creating posters and on the other hand to produce nice-looking posters that follow the TU Graz design guidelines. The \tugPoster{} class makes among others heavy use of the  \LaTeX{} packages \texttt{tcolorbox}, \texttt{tikz} and \texttt{enumitem}. 
 
-This document describes the options, commands, and environments defined within the \tugPoster class and how you can use them to create a poster. All commands defined by \tugPoster use the prefix \texttt{IPT}.
+This document describes the options, commands, and environments defined within the \tugPoster{} class and how you can use them to create a poster. All commands defined by \tugPoster{} use the prefix \texttt{IPT}.
 
 % used packages, purpose
 % prefix
@@ -26,6 +26,14 @@ To start with creating a new poster we use the following code:
 %----------------------------------------------------------
 
 The \LaTeX code in \Cref{lst:mwe} should produce a PDF document of size A0 (841\,mm $\times$ 1189\,mm) with the main layout elements (i.e., the institute's short name on the left, the TU Graz logo and claim on top and the institute name and address, etc.)
+
+\subsection{Adjusting Poster Size}
+
+The \tugPoster{} package supports different paper sizes for the poster. To select a certain size simply add the option \texttt{size=} followed by a supported poster size to the document class options. The supported poster sizes are listed in \Cref{sec:reference}
+
+%----------------------------------------------------------
+\texLstInputSample{lst:size}{Adding authors}{src/1b_size}{1}{2}
+%----------------------------------------------------------
 
 
 %-------------------------------------------------------------------------
@@ -95,21 +103,21 @@ A basic content block is added by using the environment \texttt{IPTblock} (see \
 \texLstInputSample{lst:iptblock}{Basic Content Block}{src/8_main-content_iptblock}{27}{33}
 %----------------------------------------------------------
 
-If you want to place two content blocks next to each other (i.e., use a two-column layout) you have to use the environment \texttt{IPTtwocol} (see \Cref{lst:iptlayouttwocol}). Right after the beginning of the environment goes the content for the left column, followed by the command \texttt{\bs{}IPTcolbreak} and then the content for the right column. The content for both columns is usually a \texttt{IPTblock} content block. Of course, you can have more than one \texttt{IPTblock} in every column.
+If you want to place two content blocks next to each other (i.e., use a two-column layout) you have to use the environment \texttt{IPTtwocol} (see \Cref{lst:iptlayouttwocol}). Inside the environment is the content for the left column, followed by the command \texttt{\bs{}IPTcolbreak} and then the content for the right column. The content for both columns is usually a \texttt{IPTblock} content block. Of course, you can have more than one \texttt{IPTblock} in every column.
 
 %----------------------------------------------------------
 \texLstInputSample{lst:iptlayouttwocol}{Two-column layout}{src/9_main-content_twocol}{32}{44}
 %----------------------------------------------------------
 
 
-The content within a content block can also be either single column or two columns. The easy way to typeset the content in two columns is to simply add the option \texttt{twocol} to the \texttt{IPTblock} environment (see \Cref{lst:iptcontenttwocol})
+The content within a content block can either be a single column or two columns. The easy way to typeset the content in two columns is to simply add the option \texttt{twocol} to the \texttt{IPTblock} environment (see \Cref{lst:iptcontenttwocol})
 
 %----------------------------------------------------------
 \texLstInputSample{lst:iptcontenttwocol}{Content block with two columns}{src/10_main-content_contenttwocol}{32}{36}
 %----------------------------------------------------------
 
 
-Another way to typeset the content within a content block in two columns is to use the \texttt{IPTcols} environment. This environment produces a smaller gap between columns and should therefore \textbf{not} be used to separate columns at the first level but either to further split the content of the left or right column. (on the top-level you can use \textbf{IPTtwocol} also within a content block spanning the whole page width). \texttt{IPTcols} is also more flexible concerning the width of the columns. As mandatory argument you have to specify the width of the left column (between 0.0 and 1.0). This allows to have an image next to some text and use more space for the image or the text, depending on the situation. Obviously, after the \texttt{IPTcols} environment you can place further content which spans both columns (see \Cref{lst:iptcontenttwocol2}). 
+Another way to typeset the content within a content block in two columns is to use the \texttt{IPTcols} environment. This environment produces a smaller gap between columns and should therefore \textbf{not} be used to separate columns at the first level but either to further split the content of the left or right column. On the top-level you can use \textbf{IPTtwocol} within a content block spanning the whole page width. \texttt{IPTcols} is more flexible concerning the subdivision of the columns. As mandatory argument you have to specify the width of the left column (between 0.0 and 1.0). This allows to have an image next to some text and use more space for the image or the text, depending on the situation. Obviously, after the \texttt{IPTcols} environment you can place further content which spans both columns (see \Cref{lst:iptcontenttwocol2}). 
 
 %----------------------------------------------------------
 \texLstInputSample{lst:iptcontenttwocol2}{Nested two-column layout}{src/11_main-content_nestedtwocol}{32}{40}
@@ -122,7 +130,7 @@ For more complex layouts it is often the case that you need to place a figure ne
 \subsubsection{Subheader, Subsubheader} % (fold)
 \label{ssub:subheader_subsubheader}
 
-Within the content blocks you can add further headlines, i.e., subheader and subsubheader. Therefore, dedicated commands are available: \texttt{\bs{}IPTsubheader} and \texttt{\bs{}IPTsubsubheader} (see \Cref{lst:iptsection}).
+Within the content blocks you can add further headlines, i.e., subheader and subsubheader. Therefore, dedicated commands are available: \texttt{\bs{}IPTsection} and \texttt{\bs{}IPTsubsection} (see \Cref{lst:iptsection}).
 
 %----------------------------------------------------------
 \texLstInputSample{lst:iptsection}{Subheader, Subsubheader}{src/12_main-content_subheader}{32}{40}
@@ -151,7 +159,7 @@ Adding figures to a latex document and placing them at a certain position is alw
 	\item[\texttt{label}:] allows to define a label for the figure that can be used in a \texttt{\bs{}ref} command
 \end{description}
 
-The content block added via \texttt{IPTgraphics} always spans the current maximum text width / column width. If you want to use more or less space for the image you need to adjust the text width (i.e. the column width). As option for the \texttt{includegraphics} command you can use \texttt{\bs{}textwidth} which is the current width of the content block.
+The content block added via \texttt{IPTgraphics} always spans the current maximum text width/column width. If you want to use more or less space for the image you need to adjust the text width (i.e. the column width). As option for the \texttt{includegraphics} command you can use \texttt{\bs{}textwidth} which is the current width of the content block.
 
 %----------------------------------------------------------
 \texLstInputSample{lst:graphics}{Adding Images}{src/14_main-content_figures}{35}{39}
@@ -159,7 +167,7 @@ The content block added via \texttt{IPTgraphics} always spans the current maximu
 
 \subsection{Abstract}
 
-In case you want to add a short abstract to the poster, \tugPoster provides a dedicated content block for this because the text of the abstract is slightly smaller and the the text is justified. To add an abstract simply use the environment \texttt{IPTabstractblock} similar to the previously explained \texttt{IPTblock}. \texttt{IPTabstractblock} does not support two-column text and should therefore be only used spanning one column of the whole poster.
+In case you want to add a short abstract to the poster, \tugPoster{} provides a dedicated content block for this because the text of the abstract is slightly smaller and the the text is justified. To add an abstract simply use the environment \texttt{IPTabstractblock} similar to the previously explained \texttt{IPTblock}. \texttt{IPTabstractblock} does not support two-column text and should therefore be only used spanning one column of the whole poster.
 
 %----------------------------------------------------------
 \texLstInputSample{lst:abstract}{Abstract block}{src/15_main-content_abstract}{33}{35}
@@ -180,6 +188,19 @@ The contents of the references are automatically typeset in either two or three 
 
 \subsection{Advanced Layouts}
 
+\subsubsection{Relative Lengths}
+
+The \tugPoster{} class supports different papaer sizes. Depending on the paper size, the font size and all other layout elements (header, footer, etc.) adjusted. In case you want to prepare your poster for different paper sizes and it is not sufficient to rely on measures such as \texttt{\bs{}textwidth}, additional lengths are provided:
+
+\begin{description}
+	\item[\texttt{IPTRelWidth}:] 1~\% of the final page width, i.e. 8.41\,mm for A0 or 5.94\,mm for A1
+	\item[\texttt{IPTRelHeight}:] 1~\% of the final page height, i.e. 11.89\,mm for A0 or 8.41\,mm for A1
+\end{description}
+
+This can be helpful for adjusting the size of images, etc., (see for example \Cref{lst:iptcontentthreecol})
+
+\subsubsection{Three Column Content}
+
 A special content block is the \texttt{\bs{}IPTcolorBlock3}. This content block provides three columns, each in its own minipage. Every column can be underlaid with some background color and between the header and the content every column can display an image. All three columns are of equal height and all three images are of equal height (and cropped in order to fill the available space).
 
 \texttt{IPTcolorBlock3} supports the following arguments:
@@ -193,17 +214,39 @@ A special content block is the \texttt{\bs{}IPTcolorBlock3}. This content block 
 \texLstInputSample{lst:iptcontentthreecol}{Content block with thee columns}{src/17_main-content_3cols}{43}{61}
 %----------------------------------------------------------
 
+\subsubsection{Custom Instute Banner}
 
+In case you want to place a custom banner on the left-hand side of the poster instead of the institute's abbreviation the command \texttt{\bs{IPTInstituteBanner}} allows to place picture instead. If this command is used, the institute's short name is ignored.
+
+%----------------------------------------------------------
+\texLstInputSample{lst:iptcustombanner}{Custom Banner}{src/18_main-content_custom-banner}{19}{21}
+%----------------------------------------------------------
+
+\subsubsection{Customizing Colors}
+
+The colors of the block headers and the color of the rectangle on the left-hand side above the institute's abbreviation can be customized with the commands \texttt{\bs{IPTHeaderColor}} and \texttt{\bs{IPTInstituteColor}}, see \Cref{lst:colors}
+
+%----------------------------------------------------------
+\texLstInputSample{lst:colors}{Custom Banner}{src/19_colors}{29}{32}
+%----------------------------------------------------------
+
+
+\subsection{Preparing for Print}
+
+If your printer does not support cuting the poster to the exact size or the printer leaves a certain margin around the poster, you can add either crop marks or a crop rectangle to the poster. This can be achieved by either adding the option \texttt{cropmarks} or \texttt{croprectangle} as documentclass option. If you add one of those options, also some meta-information such as the \LaTeX jobname, compilation date, etc., is added at the bleed.
+
+The option \texttt{cropmarks} adds short lines slightly outside the final paper size while \texttt{croprectangle} additionally adds a thin rectangle at the page margins (see \Cref{fig:cropmarks}.
 
 \section{Summary of Commands/Environments/Options}
+\label{sec:reference}
 
 \begin{description}
 	\item[Document Class Options:]~
 		\begin{itemize}
 			\item \texttt{debug}: enables the debugging feature and highlights the bounding boxes of the content elements in different colors (see \Cref{sec:debugging})
 			\item \texttt{cropmarks}: produces a PDF that includes crop marks (and color bars) for cropping the printed poster
-			\item \texttt{croprectangle}:
-			\item \texttt{size}:
+			\item \texttt{croprectangle}: same as cropmarks but with an additional rectangle at the poster's margins
+			\item \texttt{size}: select the size of the poster. Currently \texttt{A0} (default), \texttt{A1}, and \texttt{70x100} are supported
 		\end{itemize}
 	\item[\texttt{IPTpartnersNote}:]
 		Adds a note to the footer. Typically used to give credits to sponsors and partners involved.
@@ -211,6 +254,28 @@ A special content block is the \texttt{\bs{}IPTcolorBlock3}. This content block 
 		Adds the logo of a partner to the footer. This command can be used multiple times
 	\item[\texttt{IPTpartners}:]
 		Alternative to \texttt{\bs{}IPTpartner} if some special content needs to be added to the footer. (see \Cref{subsed:footer})
+	
+	\item[\texttt{IPTHeaderColor}:] Changes the color of all block headers. Needs to be defined via \texttt{\bs{}definecolor}, see \Cref{lst:color}
+
+	\item[\texttt{IPTInstituteColor}:] Changes the color of rectangle on the left banner. Needs to be defined via \texttt{\bs{}definecolor}, see \Cref{lst:color}. Not used if \texttt{IPTInstituteBanner} is set.
+
+	\item[\texttt{IPTInstituteName}:] Full name of the institute, printed at the poster's header.
+
+	\item[\texttt{IPTInstituteAddress}:] Full address of the institute, printed at the poster's header.
+
+	\item[\texttt{IPTInstituteEmail}:] General contact e-mail address, printed at the poster's header.
+
+	\item[\texttt{IPTInstituteShort}:] Abbreviation of the institute. printed at the banner on the left side. Not used if \texttt{IPTInstituteBanner} is set.
+
+	\item[\texttt{IPTInstituteBanner}:] Use a custom picture as banner on the left side.
+
+	\item[\texttt{IPTInstituteURL}:] Short URL of the institute's website. printed next to the QR-code in the footer. A full link to sub-page of the website can be specified via the optional first argument. Not used if \texttt{\bs{}NoQRCode} is used.
+
+	\item[\texttt{NoQRCode}:] Do not print the QR-code pointing to the institute's website in the footer
+
+	\item[\texttt{ShowNFC}:] Additionally print a NFC-logo below the QR-code in the footer if you provide additional information via an NFC-tag behid the poster.
+
+
 	\item[\texttt{IPTblock}:] Creates a basic content block. \\
 		Mandatory argument: 
 		\begin{itemize}
@@ -218,8 +283,9 @@ A special content block is the \texttt{\bs{}IPTcolorBlock3}. This content block 
 		\end{itemize}
 		Optional argument:
 		\begin{itemize}
-			\item \texttt{twocolumn}: if specified the content block is split into two columns with a large gap between the two columns. Should be used for content blocks spanning the whole width.
+			\item \texttt{twocolumn}: If specified the content block is split into two columns with a large gap between the two columns. Should be used for content blocks spanning the whole width.
 		\end{itemize}
+
 
 	\item[\texttt{IPTtwocol}:] Separate the main layout into two columns. Shall only be used at the top level of the document with \texttt{IPTblock} elements as children. Produces a large gap between the two columns.
 
@@ -233,11 +299,6 @@ A special content block is the \texttt{\bs{}IPTcolorBlock3}. This content block 
 
 	\item[\texttt{IPTrefsblock}:] Variant of a basic content block \texttt{IPTblock} which uses a smaller font for the block header and the content. Should only be used for adding a list of references to the poster. The references block can be used either for a single column of the poster or span the whole width.
 
-	\item[\texttt{IPTcolorBlock3}:]
-
-	\item[\texttt{IPTRelHeight}:]
-
-	\item[\texttt{IPTRelWidth}:]
 
 	\item[\texttt{refs}:] This environment is a specialized enumerate environment intended to list the references. Hence, this environment should always be used in combination with \texttt{IPTrefsblock}. Simply add each reference as a separate \texttt{\bs{}item}. The number of columns is automatically adjusted depending on the line width of the \texttt{\bs{}IPTrefsblock}\\
 
@@ -252,23 +313,31 @@ A special content block is the \texttt{\bs{}IPTcolorBlock3}. This content block 
 
 	\item[\texttt{\bs{}IPTcolbreak}:] Adds a column break. All content elements after this command are added to the right column of the current element. Can be used within \texttt{IPTblock} (if the argument \texttt{twocol} is given), \texttt{IPTtwocol}, and \texttt{IPTcols}.
 
-	\item[\texttt{\bs{}IPTsubheader}:] Add further headlines within the \texttt{\bs{}IPTblock} content block.
+	\item[\texttt{\bs{}IPTsection}:] Add further headlines within the \texttt{\bs{}IPTblock} content block.
 
-	\item[\texttt{\bs{}IPTsubsubheader}:] Add further headlines within the \texttt{\bs{}IPTblock} content block.
+	\item[\texttt{\bs{}IPTsubsection}:] Add further headlines within the \texttt{\bs{}IPTblock} content block.
+
+	\item[\texttt{IPTcolorBlock3}:] Content block with three content columns. Each column can have a background color and an image on top of each column.
+
+	\item[\texttt{IPTRelWidth}:] 1~\% of the final page width, i.e. 8.41\,mm for A0 or 5.94\,mm for A1
+
+	\item[\texttt{IPTRelHeight}:] 1~\% of the final page height, i.e. 11.89\,mm for A0 or 8.41\,mm for A1
 
 	\item[Bullet lists:] for bullet lists the \texttt{itemize} environment can be used as usual up to a nesting level of three. The appearance of the list has been adapted to match the given layout.
+
 \end{description}
 
-\section{Example}
 
-\tugPoster has been successfully used to create a poster containing itemized lists and many images. By nesting \texttt{IPTblock}, \texttt{IPTtwocol}, and \texttt{IPTcols} rather complex layouts can be realized as shown in \Cref{fig:sample_poster1} and \Cref{fig:sample_poster2}.
+\section{Examples}
+
+\tugPoster{} has been successfully used to create a poster containing itemized lists and many images. By nesting \texttt{IPTblock}, \texttt{IPTtwocol}, and \texttt{IPTcols} rather complex layouts can be realized as shown in \Cref{fig:sample_poster1} and \Cref{fig:sample_poster2}.
 
 % \begin{minipage}{\textwidth}
 \begin{figure}
 \centering
 % \vskip1em
 \fbox{\includegraphics[width=0.8\textwidth]{sample_poster_ITI}}
-\caption{Sample poster created with \tugPoster showing a fancy layout.}
+\caption{Sample poster created with \tugPoster{} showing a fancy layout.}
 \label{fig:sample_poster1}
 \end{figure}
 
@@ -276,7 +345,7 @@ A special content block is the \texttt{\bs{}IPTcolorBlock3}. This content block 
 \centering
 % \vskip1em
 \fbox{\includegraphics[width=0.8\textwidth]{sample_poster_IVT}}
-\caption{Sample poster created with \tugPoster showing a fancy layout.}
+\caption{Sample poster created with \tugPoster{} showing a fancy layout.}
 \label{fig:sample_poster2}
 \end{figure}
 % \end{minipage}
@@ -302,7 +371,7 @@ If you need to find out why a certain content element does not move further up o
 \centering
 \vskip1em
 \fbox{\includegraphics[width=0.8\textwidth]{sample_cropmarks}}
-\caption{Sample poster with crop marks ready to print.}
+\caption{Sample poster with a ``crop rectangle'' ready to print and easy cutting.}
 \label{fig:cropmarks}
 \end{figure}
 
