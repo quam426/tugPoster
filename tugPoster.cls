@@ -305,11 +305,14 @@
 
 
 \definecolor{TUG_red}{cmyk}{0,.96,.57,0}
-\@ifundefinedcolor{IPTinstituteColor}{
-	\definecolor{IPTinstituteColor}{cmyk}{.90,.52,.17,.02}
-%	\definecolor{IPTinstituteColor}{cmyk}{0,.96,.57,0}
-
+\@ifundefinedcolor{IPTInstituteColor}{
+	\definecolor{IPTInstituteColor}{cmyk}{0,.96,.57,0}
 }
+
+\@ifundefinedcolor{IPTHeaderColor}{
+	\definecolor{IPTHeaderColor}{cmyk}{.90,.52,.17,.02}
+}
+
 
 %########################################################################################
 %########################################################################################
@@ -357,7 +360,7 @@
 		interior titled empty,
 		segmentation hidden,
 		lowerbox=ignored,
-		coltitle=IPTinstituteColor,
+		coltitle=IPTHeaderColor,
 		size=minimal,
 		boxsep=0pt,
 		arc=0pt,
@@ -367,7 +370,7 @@
 		toptitle=8mm,
 		bottomtitle=3mm,
 		bottom=5mm,
-		title code={\path[draw=IPTinstituteColor,solid,line width=5pt] ([yshift=\IPT@TitleRulerShift]title.south west) -- ([yshift=\IPT@TitleRulerShift]title.south east);},
+		title code={\path[draw=IPTHeaderColor,solid,line width=5pt] ([yshift=\IPT@TitleRulerShift]title.south west) -- ([yshift=\IPT@TitleRulerShift]title.south east);},
 		flushleft title,
 		%flushleft upper,
 		fonttitle=\usekomafont{subtitle},
@@ -381,7 +384,7 @@
 		interior empty,
 		interior titled empty,
 		segmentation hidden,
-		coltitle=IPTinstituteColor,
+		coltitle=IPTHeaderColor,
 		size=minimal,
 		boxsep=3mm,
 		arc=0pt,
@@ -626,7 +629,7 @@
 	left=3mm,
 	right=3mm,
 	bottomtitle=4mm,
-	title code={\path[draw=IPTinstituteColor,solid,line width=4pt] ([yshift=2.25mm]title.south west) -- ([yshift=2.25mm]title.south east);},
+	title code={\path[draw=IPTHeaderColor,solid,line width=4pt] ([yshift=2.25mm]title.south west) -- ([yshift=2.25mm]title.south east);},
 	flushleft title,
 	fonttitle=\usekomafont{referencestitle},
 	fontupper=\usekomafont{references},
@@ -899,7 +902,7 @@
 \newcommand{\IPTInstituteName}[1]{\def\IPT@instituteName{#1}}
 \newcommand{\IPTInstituteAddress}[1]{\def\IPT@instituteAddress{#1}}
 \newcommand{\IPTInstituteShort}[1]{\def\IPT@instituteShort{#1}}
-\newcommand{\IPTInstituteLogo}[1]{\def\IPT@instituteLogo{#1}}
+\newcommand{\IPTInstituteBanner}[1]{\def\IPT@instituteLogo{#1}}
 \newcommand{\IPTInstituteURL}[2][]{\def\IPT@instituteURL{#2}\def\IPT@qrUrl{#1}}
 \newcommand{\IPTInstituteEmail}[1]{\def\IPT@instituteEmail{#1}}
 
@@ -1015,7 +1018,7 @@
 	        {
 	         \ifx\IPT@instituteLogo\undefined
 	        	\begin{tikzpicture}
-        			\path [fill=TUG_red, anchor=north west] (0,0) rectangle (-0.85\IPTHeaderHeight,-0.75\IPTHeaderHeight);
+        			\path [fill=IPTInstituteColor, anchor=north west] (0,0) rectangle (-0.85\IPTHeaderHeight,-0.75\IPTHeaderHeight);
         			\node [rotate=90] (institute_short) at (-0.72\IPTHeaderHeight,-0.78\IPTHeaderHeight) {\fontsize{\IPTHeaderHeight}{1em}\fontfamily{ugq}\selectfont\color{black!35!white}\uppercase\expandafter{\IPT@instituteShort}};
 	        	\end{tikzpicture}
 	         \else
