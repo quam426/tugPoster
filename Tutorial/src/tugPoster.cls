@@ -1,0 +1,1 @@
+../../tugPoster.cls
