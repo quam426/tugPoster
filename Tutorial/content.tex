@@ -47,6 +47,10 @@ The authors can be typeset either in one column or if necessary in two columns. 
 \texLstInputSample{lst:authors}{Adding authors}{src/2_authors}{14}{20}
 %----------------------------------------------------------
 
+%----------------------------------------------------------
+\texLstInputSample{lst:authors2}{Two column layout for authors}{src/2b_authors}{14}{24}
+%----------------------------------------------------------
+
 
 %-------------------------------------------------------------------------
 \subsection{Footer} % (fold)
@@ -288,6 +292,13 @@ The option \texttt{cropmarks} adds short lines slightly outside the final paper 
 			\item \texttt{twocolumn}: If specified the content block is split into two columns with a large gap between the two columns. Should be used for content blocks spanning the whole width.
 		\end{itemize}
 
+	\item[\texttt{authorNameA}:] Name of the authors, printed in the left column, spanning the whole width if \texttt{authorNameB} is not used.
+	\item[\texttt{authorAffiliationA}:] Affiliation of the authors, printed in the left column, spanning the whole width if \texttt{authorAffiliationB} is not used.
+	\item[\texttt{authorEmailA}:] Email addresses of the authors, printed in the left column, spanning the whole width if \texttt{authorEmailB} is not used.
+
+	\item[\texttt{authorNameB}:] Name of the authors, printed in the right column (optional).
+	\item[\texttt{authorAffiliationB}:] Affiliation of the authors, printed in the right column (optional).
+	\item[\texttt{authorEmailB}:] Email addresses of the authors, printed in the right column (optional).
 
 	\item[\texttt{IPTtwocol}:] Separate the main layout into two columns. Shall only be used at the top level of the document with \texttt{IPTblock} elements as children. Produces a large gap between the two columns.
 
