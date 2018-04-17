@@ -13,6 +13,9 @@
 %
 %  CHANGELOG
 %
+% v0.98 (17/04/18)
+%    - NEW: adding IPTtikz command to add TikZ pictures
+%
 % v0.97 (xx/11/2017)
 %    - NEW: additional content block: 3 coloums with background color and optional background image (top)
 %    - NEW: allow different page sizes: A0, A1, 70x100 as document options
@@ -41,7 +44,7 @@
 %           depending on the text-width
 
 \def\tugPoster{tug\textit{Poster}}
-\def\tugPosterVersion{v0.97}
+\def\tugPosterVersion{v0.98}
 
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{tugPoster}[2018/04/03 \tugPosterVersion LaTeX document class for Posters]
@@ -111,9 +114,9 @@
     }%
 }
 
-    \usetikzlibrary{shapes,decorations,shadows,backgrounds,calc,fadings,fit}
-    \usetikzlibrary{decorations.pathmorphing}
-    \usepgflibrary{arrows.meta}
+\usetikzlibrary{shapes,decorations,shadows,backgrounds,calc,fadings,fit}
+\usetikzlibrary{decorations.pathmorphing}
+\usepgflibrary{arrows.meta}
 
 
 
@@ -585,26 +588,48 @@
 % ####
 
 \def\IPT@graphics@options{}
-\def\IPT@graphics@caption{}
-\def\IPT@graphics@label{}
-\define@key{IPTfigureblock}{caption}[]{\def\IPT@graphics@caption{#1}}
-\define@key{IPTfigureblock}{imgoptions}[]{\def\IPT@graphics@options{#1}}
-\define@key{IPTfigureblock}{label}[]{\def\IPT@graphics@label{#1}}
+\def\IPT@figure@caption{}
+\def\IPT@figure@label{}
+\define@key{IPTgraphics}{imgoptions}[]{\def\IPT@graphics@options{#1}}
+\define@key{IPTfigureblock}{caption}[]{\def\IPT@figure@caption{#1}}
+\define@key{IPTfigureblock}{label}[]{\def\IPT@figure@label{#1}}
 
 \newcommand{\IPTgraphics}[2][]{%
 	\def\IPT@graphics@options{}
-	\def\IPT@graphics@caption{}
-	\def\IPT@graphics@label{}
-	\setkeys{IPTfigureblock}{#1}
+	\def\IPT@figure@caption{}
+	\def\IPT@figure@label{}
+	\setkeys{IPTfigureblock,IPTgraphics}{#1}
 	\begin{tcolorbox}[
 		poster_figure,
 		poster_figure_debug,
-		label=\IPT@graphics@label,
+		label=\IPT@figure@label,
 	]
 		\expandafter\includegraphics\expandafter[\IPT@graphics@options]{#2}
-		\ifx\IPT@graphics@caption\empty\else
+		\ifx\IPT@figure@caption\empty\else
 		\IPTcolbreak
-		\IPT@graphics@caption
+		\IPT@figure@caption
+		\fi
+	\end{tcolorbox}
+}
+
+\def\IPT@tikz@scale{1}
+\def\IPT@tikz@options{}
+\define@key{IPTtikz}{scale}[]{\def\IPT@tikz@scale{#1}}
+\define@key{IPTtikz}{tikzoptions}[]{\def\IPT@tikz@options{#1}}
+\newcommand{\IPTtikz}[2][]{
+	\def\IPT@graphics@options{}
+	\def\IPT@figure@caption{}
+	\def\IPT@figure@label{}
+	\setkeys{IPTfigureblock,IPTtikz}{#1}
+	\begin{tcolorbox}[
+		poster_figure,
+		poster_figure_debug,
+		label=\IPT@figure@label,
+	]
+		\begin{tikzpicture}[scale=\IPT@tikz@scale,\IPT@tikz@options]#2\end{tikzpicture}
+		\ifx\IPT@figure@caption\empty\else
+		\IPTcolbreak
+		\IPT@figure@caption
 		\fi
 	\end{tcolorbox}
 }
