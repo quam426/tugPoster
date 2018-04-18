@@ -218,3 +218,7 @@ TSWLatexianTemp*
 
 # expex forward references with \gathertags
 *-tags.tex
+/Tutorial/main.listing
+/Tutorial/main.pdf
+Tutorial/src/[0-9]*.pdf
+Tutorial/src/[0-9][0-9]*.pdf
