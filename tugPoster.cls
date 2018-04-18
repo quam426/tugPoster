@@ -15,6 +15,7 @@
 %
 % v0.98 (17/04/18)
 %    - NEW: adding IPTtikz command to add TikZ pictures
+%    - NEW: embedding all layout graphics into the style file
 %
 % v0.97 (xx/11/2017)
 %    - NEW: additional content block: 3 coloums with background color and optional background image (top)
