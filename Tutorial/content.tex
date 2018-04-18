@@ -155,20 +155,41 @@ Bullet lists can be used as in every \LaTeX{} document via the \texttt{itemize} 
 
 \subsection{Figures}
 
+\subsubsection{Including Graphics}
+
 Adding figures to a latex document and placing them at a certain position is always cumbersome in \LaTeX{} documents. Hence, we provide a new command \texttt{\bs{IPTgraphics}} that allows to easily add figures at a certain position. 
 \texttt{IPTgraphics} takes an optional argument with of key-value options as described below and a mandatory argument of the file name to include.
 
 \texttt{IPTgraphics} supports the following arguments:
 \begin{description}
-	\item[\texttt{imgoptions}:] this is a list of options that is directly passed to the \texttt{\bs{}includegraphics} command. here you can adjust the size of the image, rotate or crop the image, etc.
+	\item[\texttt{imgoptions}:] this is a list of options that is directly passed to the \texttt{\bs{}includegraphics} command. Here you can adjust the size of the image, rotate or crop the image, etc.
 	\item[\texttt{caption}:] here you can specify the caption which is typeset below the image
 	\item[\texttt{label}:] allows to define a label for the figure that can be used in a \texttt{\bs{}ref} command
 \end{description}
 
 The content block added via \texttt{IPTgraphics} always spans the current maximum text width/column width. If you want to use more or less space for the image you need to adjust the text width (i.e. the column width). As option for the \texttt{includegraphics} command you can use \texttt{\bs{}textwidth} which is the current width of the content block.
 
+For best print quality use vector graphics files (e.g., PDF, EPS, \ldots) and only use pixel graphics (e.g., .JPG, .PNG) for photos.
+
+
 %----------------------------------------------------------
 \texLstInputSample{lst:graphics}{Adding Images}{src/14_main-content_figures}{35}{39}
+%----------------------------------------------------------
+
+\subsubsection{Drawing Pictures using TikZ}
+
+Alternatively, you can draw some simple (or more complex) pictures directly in \LaTeX{} using the TikZ package (see \url{https://sourceforge.net/projects/pgf/} for more details). The according command is \texttt{\bs{IPTtikz}}. Optional arguments with key-value options are:
+
+\begin{description}
+	\item[\texttt{tikzoptions}:] this is a list of options that is directly passed to the \texttt{tikzpicture} environment. Here you can define styles, etc.
+	\item[\texttt{scale}:] allows to scale the whole tikz picture.
+	\item[\texttt{caption}:] here you can specify the caption which is typeset below the image
+	\item[\texttt{label}:] allows to define a label for the figure that can be used in a \texttt{\bs{}ref} command
+\end{description}
+
+
+%----------------------------------------------------------
+\texLstInputSample{lst:graphics}{TikZ Picture (Sample from TikZ manual)}{src/14b_main-content_tikzpicture}{55}{62}
 %----------------------------------------------------------
 
 \subsection{Abstract}
@@ -323,6 +344,14 @@ The option \texttt{cropmarks} adds short lines slightly outside the final paper 
 		\item \texttt{label}: Adds a label to the image which can be used with the \texttt{ref} command.
 	\end{itemize}
 
+	\item[\texttt{\bs{}IPTtikz}:] Directly draw pictures in \LaTeX{} using TikZ.
+	Optional arguments:
+	\begin{description}
+		\item[\texttt{tikzoptions}:] this is a list of options that is directly passed to the \texttt{tikz} command. Here you can define styles, etc.
+		\item[\texttt{scale}:] allows to scale the whole tikz picture.
+		\item[\texttt{caption}:] here you can specify the caption which is typeset below the image
+		\item[\texttt{label}:] allows to define a label for the figure that can be used in a \texttt{\bs{}ref} command
+	\end{description}
 
 	\item[\texttt{\bs{}IPTcolbreak}:] Adds a column break. All content elements after this command are added to the right column of the current element. Can be used within \texttt{IPTblock} (if the argument \texttt{twocol} is given), \texttt{IPTtwocol}, and \texttt{IPTcols}.
 
