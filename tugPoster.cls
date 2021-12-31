@@ -72,12 +72,15 @@
 
 \ifthenelse{\equal{\IPT@size}{a0}}{
 	\LoadClass[fontsize=36pt]{scrartcl}
+	\usepackage{scrlayer-scrpage}
 }{}
 \ifthenelse{\equal{\IPT@size}{a1}}{
-	\LoadClass[fontsize=26pt]{scrartcl}
+	\LoadClass[fontsize=26pt,scrpage2]{scrartcl}
+	\usepackage{scrlayer-scrpage}
 }{}
 \ifthenelse{\equal{\IPT@size}{70x100}}{
-	\LoadClass[fontsize=30pt]{scrartcl}
+	\LoadClass[fontsize=30pt,scrpage2]{scrartcl}
+	\usepackage{scrlayer-scrpage}
 }{}
 
 \RequirePackage{geometry}
@@ -928,10 +931,13 @@
 
 %########################################################################################
 
+% ###
+% ### Define a command to draw all poster layout elements in a tikzpicture
+% ###
 
-\AtBeginDocument{
-	\thispagestyle{empty}
-	\begin{tikzpicture}[remember picture,overlay]
+\newlength{\IPT@footerWidth}\setlength{\IPT@footerWidth}{\IPTPageWidth-\IPTMarginLeft-\IPTMarginRight}
+\newcommand{\IPT@Page}{
+		\begin{tikzpicture}[remember picture,overlay]
 		\node (IPTpage) at (current page) [rectangle,inner sep=0pt,minimum width=\IPTPageWidth,minimum height=\IPTPageHeight] {};
 		\node[anchor=north west,outer sep=0,inner sep=0] (IPTheader) at ([xshift=\IPTMarginLeft]IPTpage.north west) [rectangle,inner sep=0,minimum width=\IPTPageWidth-\IPTMarginLeft-\IPTMarginRight,minimum height=\IPTHeaderHeight] {};
 
@@ -1070,7 +1076,7 @@
 	        \end{tikzpicture}
 	    };
 	    \fi
-	    \newlength{\IPT@footerWidth}\setlength{\IPT@footerWidth}{\IPTPageWidth-\IPTMarginLeft-\IPTMarginRight}
+	    % \newlength{\IPT@footerWidth}\setlength{\IPT@footerWidth}{\IPTPageWidth-\IPTMarginLeft-\IPTMarginRight}
 
 	    % footer content: partner logos
 		\ifnum\theIPT@partnerCount=0
@@ -1105,7 +1111,19 @@
     		\end{minipage}
 	    };
 	\end{tikzpicture}
+}
 
+% #############################################################################
+
+% ### Declare a new pagelayout and add a new layer with the layout elements of the poster
+
+\DeclareLayer[background,head,contents={\IPT@Page}]{IPTPosterPageLayout}
+
+\defpagestyle{iptposter}{{}{}{}}{{}{}{}}
+\AddLayersToPageStyle{iptposter}{IPTPosterPageLayout}
+
+\AtBeginDocument{
+	\pagestyle{iptposter}
 }
 
 \makeatother
