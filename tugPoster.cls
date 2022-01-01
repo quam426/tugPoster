@@ -13,6 +13,9 @@
 %
 %  CHANGELOG
 %
+% v0.98 (01/01/2022)
+%    - NEW: allow poster with multiple pages. create custom koma page-layout and use this for the whole 
+%           document instead of drawing the layout elements on the first page only
 % v0.97 (xx/11/2017)
 %    - NEW: additional content block: 3 coloums with background color and optional background image (top)
 %    - NEW: allow different page sizes: A0, A1, 70x100 as document options
