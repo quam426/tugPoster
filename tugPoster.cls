@@ -101,6 +101,8 @@
 \RequirePackage{datetime}
 \RequirePackage{xspace}
 \RequirePackage{ragged2e}
+\RequirePackage{siunitx}
+\RequirePackage{fix-cm}
 
 \@ifpackagelater{tcolorbox}{2014/05/18}{%
     % Package is new enough
